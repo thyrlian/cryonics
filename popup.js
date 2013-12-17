@@ -12,6 +12,10 @@ function saveURLs() {
     
 }
 
+function retrieveURLs() {
+    
+}
+
 function openURLs() {
     
 }
