@@ -19,3 +19,9 @@ function retrieveURLs() {
 function openURLs() {
     
 }
+
+function getCurrentTimestampAsFilename() {
+    var timestamp = new Date();
+    var filename = timestamp.getFullYear() + "_" + (timestamp.getMonth() + 1) + "_" + timestamp.getDate() + "_" + timestamp.getHours() + "_" + timestamp.getMinutes() + "_" + timestamp.getSeconds();
+    return filename;
+}
