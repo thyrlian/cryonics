@@ -16,8 +16,10 @@ function retrieveURLs() {
     
 }
 
-function openURLs() {
-    
+function openURLs(urls) {
+    for (var i = 0; i < urls.length; i++) {
+        chrome.tabs.create({"url": urls[i]});
+    }
 }
 
 function getCurrentTimestampAsFilename() {
