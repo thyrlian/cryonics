@@ -27,3 +27,12 @@ function getCurrentTimestampAsFilename() {
     var filename = timestamp.getFullYear() + "_" + (timestamp.getMonth() + 1) + "_" + timestamp.getDate() + "_" + timestamp.getHours() + "_" + timestamp.getMinutes() + "_" + timestamp.getSeconds();
     return filename;
 }
+
+function addListItems(items, listId) {
+    for (var i = 0; i < items.length; i++) {
+        var listItem = document.createElement('li');
+        var itemText = document.createTextNode(items[i]);
+        listItem.appendChild(itemText);
+        document.getElementById(listId).appendChild(listItem);
+    }
+}
