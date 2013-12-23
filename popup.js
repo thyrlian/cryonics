@@ -52,3 +52,7 @@ function addListItems(items, listId) {
         document.getElementById(listId).appendChild(listItem);
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+});
