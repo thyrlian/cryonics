@@ -1,3 +1,5 @@
+var STORAGE = chrome.storage.sync;
+
 function getURLs(callback) {
     chrome.tabs.query({currentWindow: true}, function(tabs) {
         var urls = [];
@@ -18,7 +20,7 @@ function retrieveURLs() {
 
 // used for debug only
 function getAllKeysFromStorage(callback) {
-    chrome.storage.sync.get(null, function(items) {
+    STORAGE.get(null, function(items) {
         var keys = Object.keys(items);
         callback(keys);
     });
@@ -26,7 +28,7 @@ function getAllKeysFromStorage(callback) {
 
 function removeURLs(keys) {
     for (var i = 0; i < keys.length; i++) {
-        chrome.storage.sync.remove(keys[i]);
+        STORAGE.remove(keys[i]);
     }
 }
 
