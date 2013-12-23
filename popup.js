@@ -16,6 +16,12 @@ function retrieveURLs() {
     
 }
 
+function removeURLs(keys) {
+    for (var i = 0; i < keys.length; i++) {
+        chrome.storage.sync.remove(keys[i]);
+    }
+}
+
 function openURLs(urls) {
     for (var i = 0; i < urls.length; i++) {
         chrome.tabs.create({"url": urls[i]});
