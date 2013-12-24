@@ -10,12 +10,16 @@ function getURLs(callback) {
     });
 }
 
-function saveURLs() {
-    
+function saveURLs(key, urls) {
+    var obj = {};
+    obj[key] = urls;
+    STORAGE.set(obj);
 }
 
-function retrieveURLs() {
-    
+function retrieveURLs(key, callback) {
+    STORAGE.get(key, function(items) {
+        callback(items[key]);
+    });
 }
 
 // used for debug only
