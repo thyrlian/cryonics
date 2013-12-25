@@ -57,6 +57,21 @@ function addListItems(items, listId) {
     }
 }
 
+function addListItemsAsCheckboxes(items, listId) {
+    for (var i = 0; i < items.length; i++) {
+        var listItem = document.createElement('label');
+        var checkbox = document.createElement('input');
+        var itemText = document.createTextNode(items[i]);
+        var linebreak = document.createElement('br');
+        checkbox.setAttribute('type', 'checkbox');
+        checkbox.setAttribute('value', '');
+        listItem.appendChild(checkbox);
+        listItem.appendChild(itemText);
+        listItem.appendChild(linebreak);
+        document.getElementById(listId).appendChild(listItem);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     
 });
