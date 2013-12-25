@@ -14,6 +14,10 @@ body {
     display: block;
 }
 
+label {
+    display: block;
+}
+
 label:hover,
 label:focus {
     color: #005580;
