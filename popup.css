@@ -13,3 +13,37 @@ body {
     text-decoration: none;
     display: block;
 }
+
+button {
+    font-family: inherit;
+    text-transform: none;
+}
+
+.btn {
+    -moz-user-select: none;
+    background-image: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+#save {
+    background-color: #5CB85C;
+    border-color: #4CAE4C;
+    color: #FFFFFF;
+}
+
+#open {
+    background-color: #428BCA;
+    border-color: #357EBD;
+    color: #FFFFFF;
+}
