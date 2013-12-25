@@ -11,3 +11,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Cryonics subcomponents:
+This Chrome Extension includes part of styling codes from Twitter's Bootstrap.  You can find the license at https://github.com/twbs/bootstrap/blob/master/README.md
