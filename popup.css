@@ -30,7 +30,6 @@ button {
 }
 
 .btn {
-    -moz-user-select: none;
     background-image: none;
     border-radius: 4px;
     cursor: pointer;
