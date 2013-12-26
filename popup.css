@@ -119,15 +119,21 @@ button {
   background-color: #428BCA;
   border-color: #357EBD;
   color: #FFFFFF;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  width: 72px;
+}
+
+#remove {
+  background-color: #D9534F;
+  border-color: #D43F3A;
+  color: #FFFFFF;
+  width: 72px;
+  padding: 6px 6px;
 }
 
 #save:hover,
 #save:focus,
 #save:active {
-  color: #ffffff;
+  color: #FFFFFF;
   background-color: #47A447;
   border-color: #398439;
 }
@@ -135,7 +141,15 @@ button {
 #open:hover,
 #open:focus,
 #open:active {
-  color: #ffffff;
+  color: #FFFFFF;
   background-color: #3276B1;
   border-color: #357EBD;
+}
+
+#remove:hover,
+#remove:focus,
+#remove:active {
+  color: #FFFFFF;
+  background-color: #D2322D;
+  border-color: #AC2925;
 }
