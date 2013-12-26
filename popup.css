@@ -78,3 +78,19 @@ button {
     border-color: #357EBD;
     color: #FFFFFF;
 }
+
+#save:hover,
+#save:focus,
+#save:active {
+  color: #ffffff;
+  background-color: #47A447;
+  border-color: #398439;
+}
+
+#open:hover,
+#open:focus,
+#open:active {
+  color: #ffffff;
+  background-color: #3276B1;
+  border-color: #357EBD;
+}
