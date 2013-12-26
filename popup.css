@@ -67,6 +67,22 @@ button {
     white-space: nowrap;
 }
 
+.btn:focus {
+    outline: thin dotted #333;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.btn:active {
+    color: #333333;
+    background-color: #cccccc \9;
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+       -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
 #save {
     background-color: #5CB85C;
     border-color: #4CAE4C;
@@ -82,15 +98,15 @@ button {
 #save:hover,
 #save:focus,
 #save:active {
-  color: #ffffff;
-  background-color: #47A447;
-  border-color: #398439;
+    color: #ffffff;
+    background-color: #47A447;
+    border-color: #398439;
 }
 
 #open:hover,
 #open:focus,
 #open:active {
-  color: #ffffff;
-  background-color: #3276B1;
-  border-color: #357EBD;
+    color: #ffffff;
+    background-color: #3276B1;
+    border-color: #357EBD;
 }
