@@ -1,141 +1,141 @@
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
 }
 
 #list {
-    margin-left: -15px;
-    margin-right: -15px;
-    padding: 3px 15px;
-    line-height: 20px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-    color: #0088CC;
-    text-decoration: none;
-    display: block;
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 3px 15px;
+  line-height: 20px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  color: #0088CC;
+  text-decoration: none;
+  display: block;
 }
 
 .edittext {
-    background-color: #FFFFFF;
-    background-image: none;
-    border: 1px solid #CCCCCC;
-    border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    color: #555555;
-    font-size: 14px;
-    height: 16px;
-    padding: 6px 6px;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    vertical-align: middle;
-    margin: 0;
-    opacity: 1;
-    width: 100px;
+  background-color: #FFFFFF;
+  background-image: none;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  color: #555555;
+  font-size: 14px;
+  height: 16px;
+  padding: 6px 6px;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+  vertical-align: middle;
+  margin: 0;
+  opacity: 1;
+  width: 100px;
 }
 
 .hint {
-    color: #999999;
-    display: block;
-    line-height: 1.42857;
-    font-size: 85%;
-    margin-top: 0px;
+  color: #999999;
+  display: block;
+  line-height: 1.42857;
+  font-size: 85%;
+  margin-top: 0px;
 }
 
 label {
-    display: block;
+  display: block;
 }
 
 label:hover,
 label:focus {
-    color: #005580;
-    background-color: #eeeeee;
+  color: #005580;
+  background-color: #eeeeee;
 }
 
 button {
-    font-family: inherit;
-    text-transform: none;
+  font-family: inherit;
+  text-transform: none;
 }
 
 .btn {
-    background-image: none;
-    border: 1px solid transparent;
-    border-top-width: 1px;
-    border-right-width-value: 1px;
-    border-right-width-ltr-source: physical;
-    border-right-width-rtl-source: physical;
-    border-bottom-width: 1px;
-    border-left-width-value: 1px;
-    border-left-width-ltr-source: physical;
-    border-left-width-rtl-source: physical;
-    border-top-style: solid;
-    border-right-style-value: solid;
-    border-right-style-ltr-source: physical;
-    border-right-style-rtl-source: physical;
-    border-bottom-style: solid;
-    border-left-style-value: solid;
-    border-left-style-ltr-source: physical;
-    border-left-style-rtl-source: physical;
-    border-image-source: none;
-    border-image-slice: 100% 100% 100% 100%;
-    border-image-width: 1 1 1 1;
-    border-image-outset: 0 0 0 0;
-    border-image-repeat: stretch stretch;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857;
-    padding: 6px 12px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
+  background-image: none;
+  border: 1px solid transparent;
+  border-top-width: 1px;
+  border-right-width-value: 1px;
+  border-right-width-ltr-source: physical;
+  border-right-width-rtl-source: physical;
+  border-bottom-width: 1px;
+  border-left-width-value: 1px;
+  border-left-width-ltr-source: physical;
+  border-left-width-rtl-source: physical;
+  border-top-style: solid;
+  border-right-style-value: solid;
+  border-right-style-ltr-source: physical;
+  border-right-style-rtl-source: physical;
+  border-bottom-style: solid;
+  border-left-style-value: solid;
+  border-left-style-ltr-source: physical;
+  border-left-style-rtl-source: physical;
+  border-image-source: none;
+  border-image-slice: 100% 100% 100% 100%;
+  border-image-width: 1 1 1 1;
+  border-image-outset: 0 0 0 0;
+  border-image-repeat: stretch stretch;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857;
+  padding: 6px 12px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 .btn:focus {
-    outline: thin dotted #333;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 
 .btn:active {
-    color: #333333;
-    background-color: #cccccc \9;
-    background-image: none;
-    outline: 0;
-    -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-       -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  color: #333333;
+  background-color: #cccccc \9;
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 #save {
-    background-color: #5CB85C;
-    border-color: #4CAE4C;
-    color: #FFFFFF;
-    margin-left: 10px;
+  background-color: #5CB85C;
+  border-color: #4CAE4C;
+  color: #FFFFFF;
+  margin-left: 10px;
 }
 
 #open {
-    background-color: #428BCA;
-    border-color: #357EBD;
-    color: #FFFFFF;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  background-color: #428BCA;
+  border-color: #357EBD;
+  color: #FFFFFF;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #save:hover,
 #save:focus,
 #save:active {
-    color: #ffffff;
-    background-color: #47A447;
-    border-color: #398439;
+  color: #ffffff;
+  background-color: #47A447;
+  border-color: #398439;
 }
 
 #open:hover,
 #open:focus,
 #open:active {
-    color: #ffffff;
-    background-color: #3276B1;
-    border-color: #357EBD;
+  color: #ffffff;
+  background-color: #3276B1;
+  border-color: #357EBD;
 }
