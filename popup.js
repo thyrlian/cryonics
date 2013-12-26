@@ -43,8 +43,14 @@ function openURLs(urls) {
 }
 
 function getCurrentTimestampAsFilename() {
+    var normalizeTimeToTwoDigits = function(time) {
+        if (time < 10) {
+            time = "0" + time.toString();
+        }
+        return time;
+    };
     var timestamp = new Date();
-    var filename = timestamp.getFullYear() + "_" + (timestamp.getMonth() + 1) + "_" + timestamp.getDate() + "_" + timestamp.getHours() + "_" + timestamp.getMinutes() + "_" + timestamp.getSeconds();
+    var filename = timestamp.getFullYear() + "-" + normalizeTimeToTwoDigits((timestamp.getMonth() + 1)) + "-" + normalizeTimeToTwoDigits(timestamp.getDate()) + "T" + normalizeTimeToTwoDigits(timestamp.getHours()) + ":" + normalizeTimeToTwoDigits(timestamp.getMinutes()) + ":" + normalizeTimeToTwoDigits(timestamp.getSeconds());
     return filename;
 }
 
