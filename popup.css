@@ -110,3 +110,10 @@ button {
     background-color: #3276B1;
     border-color: #357EBD;
 }
+
+.hint {
+    color: #999999;
+    display: block;
+    line-height: 1.42857;
+    font-size: 85%;
+}
