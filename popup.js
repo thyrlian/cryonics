@@ -76,11 +76,7 @@ function addListItemsAsCheckboxes(items, listId) {
         var linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('value', '');
-        if (checkbox.addEventListener) {
-            checkbox.addEventListener('click', function() {clickHandler(listId);}, false);
-        } else if (checkbox.attachEvent) {
-            checkbox.attachEvent('onclick', function() {clickHandler(listId);});
-        }
+        checkbox.addEventListener('click', function() {clickHandler(listId);}, false);
         listItem.appendChild(checkbox);
         listItem.appendChild(itemText);
         listItem.appendChild(linebreak);
