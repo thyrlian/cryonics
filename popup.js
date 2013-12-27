@@ -81,9 +81,10 @@ function generateKeyName() {
 
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
+        var keyText = items[i].replace(new RegExp(APP_NAME + ' '), '');
         var listItem = document.createElement('label');
         var checkbox = document.createElement('input');
-        var itemText = document.createTextNode(items[i]);
+        var itemText = document.createTextNode(keyText);
         var linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('value', '');
