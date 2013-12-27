@@ -11,10 +11,10 @@ function getURLs(callback) {
     });
 }
 
-function saveURLs(key, urls) {
+function saveURLs(key, urls, callback) {
     var obj = {};
     obj[key] = urls;
-    STORAGE.set(obj);
+    STORAGE.set(obj, callback);
 }
 
 function retrieveURLs(key, callback) {
@@ -118,5 +118,16 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             addListItemsAsCheckboxes(keys, 'list');
         }
+    });
+    
+    var btnSave = document.getElementById('save');
+    btnSave.addEventListener('click', function() {
+        var key = generateKeyName();
+        getURLs(function(urls) {
+            saveURLs(key, urls, function() {
+                addListItemsAsCheckboxes([key], 'list');
+            });
+        });
+        document.getElementById('input-hint').value = '';
     });
 });
