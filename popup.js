@@ -71,10 +71,29 @@ function addListItemsAsCheckboxes(items, listId) {
         var linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('value', '');
+        if (checkbox.addEventListener) {
+            checkbox.addEventListener('click', function() {clickHandler(listId);}, false);
+        } else if (checkbox.attachEvent) {
+            checkbox.attachEvent('onclick', function() {clickHandler(listId);});
+        }
         listItem.appendChild(checkbox);
         listItem.appendChild(itemText);
         listItem.appendChild(linebreak);
         document.getElementById(listId).appendChild(listItem);
+    }
+}
+
+function clickHandler(listId) {
+    var list = document.getElementById(listId);
+    var counter = list.querySelectorAll('input[type="checkbox"]:checked').length;
+    var btnOpen = document.getElementById('open');
+    var btnRemove = document.getElementById('remove');
+    if (counter > 0) {
+        btnOpen.disabled = false;
+        btnRemove.disabled = false;
+    } else {
+        btnOpen.disabled = true;
+        btnRemove.disabled = true;
     }
 }
 
