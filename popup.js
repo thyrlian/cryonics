@@ -30,6 +30,20 @@ function getAllKeysFromStorage(callback) {
     });
 }
 
+function getKeysBeginWithPatternFromStorage(pattern, callback) {
+    STORAGE.get(null, function(items) {
+        var regex = new RegExp(pattern);
+        var allKeys = Object.keys(items);
+        var wantedKeys = [];
+        for (var i = 0; i < allKeys.length; i++) {
+            if (allKeys[i].match(regex)) {
+                wantedKeys.push(allKeys[i]);
+            }
+        }
+        callback(wantedKeys);
+    });
+}
+
 function removeURLs(keys) {
     for (var i = 0; i < keys.length; i++) {
         STORAGE.remove(keys[i]);
