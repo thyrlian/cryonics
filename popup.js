@@ -54,15 +54,6 @@ function getCurrentTimestampAsFilename() {
     return filename;
 }
 
-function addListItems(items, listId) {
-    for (var i = 0; i < items.length; i++) {
-        var listItem = document.createElement('li');
-        var itemText = document.createTextNode(items[i]);
-        listItem.appendChild(itemText);
-        document.getElementById(listId).appendChild(listItem);
-    }
-}
-
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
         var listItem = document.createElement('label');
