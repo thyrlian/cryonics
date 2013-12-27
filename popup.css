@@ -175,7 +175,10 @@ button {
 
 #save:hover,
 #save:focus,
-#save:active {
+#save:active,
+#save.active,
+#save.disabled,
+#save[disabled] {
   color: #FFFFFF;
   background-color: #47A447;
   border-color: #398439;
@@ -183,7 +186,10 @@ button {
 
 #open:hover,
 #open:focus,
-#open:active {
+#open:active,
+#open.active,
+#open.disabled,
+#open[disabled] {
   color: #FFFFFF;
   background-color: #3276B1;
   border-color: #357EBD;
@@ -191,7 +197,10 @@ button {
 
 #remove:hover,
 #remove:focus,
-#remove:active {
+#remove:active,
+#remove.active,
+#remove.disabled,
+#remove[disabled] {
   color: #FFFFFF;
   background-color: #D2322D;
   border-color: #AC2925;
