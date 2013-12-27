@@ -98,5 +98,10 @@ function clickHandler(listId) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    
+    var list = document.getElementById('list');
+    if (list.querySelectorAll('input[type="checkbox"]').length == 0) {
+        document.getElementById('open').style.visibility = 'hidden';
+        document.getElementById('remove').style.visibility = 'hidden';
+        document.getElementById('hint-open').style.visibility = 'hidden';
+    }
 });
