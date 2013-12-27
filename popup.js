@@ -1,4 +1,5 @@
 var STORAGE = chrome.storage.sync;
+var APP_NAME = 'cryonics';
 
 function getURLs(callback) {
     chrome.tabs.query({currentWindow: true}, function(tabs) {
@@ -68,6 +69,16 @@ function getCurrentTimestampAsFilename() {
     return filename;
 }
 
+function generateKeyName() {
+    var hint = document.getElementById('input-hint').value;
+    var time = getCurrentTimestampAsFilename();
+    if (hint) {
+        return APP_NAME + ' ' + time + ' ' + hint;
+    } else {
+        return APP_NAME + ' ' + time;
+    }
+}
+
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
         var listItem = document.createElement('label');
@@ -99,7 +110,7 @@ function clickHandler(listId) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    getKeysBeginWithPatternFromStorage('cryonics', function(keys) {
+    getKeysBeginWithPatternFromStorage(APP_NAME, function(keys) {
         if (keys.length == 0) {
             document.getElementById('open').style.visibility = 'hidden';
             document.getElementById('remove').style.visibility = 'hidden';
