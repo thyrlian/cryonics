@@ -47,19 +47,19 @@ function removeURLs(keys, callback) {
 
 function openURLs(urls) {
     for (var i = 0; i < urls.length; i++) {
-        chrome.tabs.create({"url": urls[i]});
+        chrome.tabs.create({'url': urls[i]});
     }
 }
 
 function getCurrentTimestampAsFilename() {
     var normalizeTimeToTwoDigits = function(time) {
         if (time < 10) {
-            time = "0" + time.toString();
+            time = '0' + time.toString();
         }
         return time;
     };
     var timestamp = new Date();
-    var filename = timestamp.getFullYear() + "-" + normalizeTimeToTwoDigits((timestamp.getMonth() + 1)) + "-" + normalizeTimeToTwoDigits(timestamp.getDate()) + "T" + normalizeTimeToTwoDigits(timestamp.getHours()) + ":" + normalizeTimeToTwoDigits(timestamp.getMinutes()) + ":" + normalizeTimeToTwoDigits(timestamp.getSeconds());
+    var filename = timestamp.getFullYear() + '-' + normalizeTimeToTwoDigits((timestamp.getMonth() + 1)) + '-' + normalizeTimeToTwoDigits(timestamp.getDate()) + 'T' + normalizeTimeToTwoDigits(timestamp.getHours()) + ':' + normalizeTimeToTwoDigits(timestamp.getMinutes()) + ':' + normalizeTimeToTwoDigits(timestamp.getSeconds());
     return filename;
 }
 
