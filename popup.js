@@ -118,6 +118,17 @@ function clickHandler(listId) {
     }
 }
 
+function getCheckedKeysAndHandleThem(listId, callback) {
+    var list = document.getElementById(listId);
+    var items = list.querySelectorAll('input[type="checkbox"]:checked');
+    var keys = [];
+    for (var i = 0; i < items.length; i++) {
+        var key = formRealKey(items[i].parentNode.textContent);
+        keys.push(key);
+    }
+    callback(keys);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     getKeysBeginWithPatternFromStorage(APP_NAME, function(keys) {
         if (keys.length == 0) {
