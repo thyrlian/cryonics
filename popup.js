@@ -23,14 +23,6 @@ function retrieveURLs(key, callback) {
     });
 }
 
-// used for debug only
-function getAllKeysFromStorage(callback) {
-    STORAGE.get(null, function(items) {
-        var keys = Object.keys(items);
-        callback(keys);
-    });
-}
-
 function getKeysBeginWithPatternFromStorage(pattern, callback) {
     STORAGE.get(null, function(items) {
         var regex = new RegExp(pattern);
@@ -45,10 +37,11 @@ function getKeysBeginWithPatternFromStorage(pattern, callback) {
     });
 }
 
-function removeURLs(keys) {
+function removeURLs(keys, callback) {
     for (var i = 0; i < keys.length; i++) {
         STORAGE.remove(keys[i]);
     }
+    callback();
 }
 
 function openURLs(urls) {
@@ -118,6 +111,25 @@ function clickHandler(listId) {
     }
 }
 
+function updateListView(listId) {
+    var btnOpen = document.getElementById('open');
+    var btnRemove = document.getElementById('remove');
+    var textHint = document.getElementById('hint-open');
+    document.getElementById(listId).innerHTML = '';
+    getKeysBeginWithPatternFromStorage(APP_NAME, function(keys) {
+        if (keys.length == 0) {
+            btnOpen.style.visibility = 'hidden';
+            btnRemove.style.visibility = 'hidden';
+            textHint.style.visibility = 'hidden';
+        } else {
+            addListItemsAsCheckboxes(keys, listId);
+            btnOpen.style.visibility = 'visible';
+            btnRemove.style.visibility = 'visible';
+            textHint.style.visibility = 'visible';
+        }
+    });
+}
+
 function getCheckedKeysAndHandleThem(listId, callback) {
     var list = document.getElementById(listId);
     var items = list.querySelectorAll('input[type="checkbox"]:checked');
@@ -130,24 +142,32 @@ function getCheckedKeysAndHandleThem(listId, callback) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    getKeysBeginWithPatternFromStorage(APP_NAME, function(keys) {
-        if (keys.length == 0) {
-            document.getElementById('open').style.visibility = 'hidden';
-            document.getElementById('remove').style.visibility = 'hidden';
-            document.getElementById('hint-open').style.visibility = 'hidden';
-        } else {
-            addListItemsAsCheckboxes(keys, 'list');
-        }
-    });
-    
     var btnSave = document.getElementById('save');
+    var btnOpen = document.getElementById('open');
+    var btnRemove = document.getElementById('remove');
+    
+    var listId = 'list';
+    
+    updateListView(listId);
+    
     btnSave.addEventListener('click', function() {
+        var hintField = document.getElementById('input-hint');
         var key = generateKeyName();
         getURLs(function(urls) {
             saveURLs(key, urls, function() {
-                addListItemsAsCheckboxes([key], 'list');
+                // addListItemsAsCheckboxes([key], listId);
+                updateListView(listId);
             });
         });
-        document.getElementById('input-hint').value = '';
+        hintField.value = '';
+        hintField.focus();
+    });
+    
+    btnRemove.addEventListener('click', function() {
+        getCheckedKeysAndHandleThem(listId, function(keys) {
+            removeURLs(keys, function() {
+                updateListView(listId);
+            });
+        });
     });
 });
