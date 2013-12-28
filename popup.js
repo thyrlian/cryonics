@@ -19,7 +19,8 @@ function saveURLs(key, urls, callback) {
 
 function retrieveURLs(key, callback) {
     STORAGE.get(key, function(items) {
-        callback(items[key]);
+        var urls = items[key];
+        callback(urls);
     });
 }
 
@@ -161,6 +162,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         hintField.value = '';
         hintField.focus();
+    });
+    
+    btnOpen.addEventListener('click', function() {
+        getCheckedKeysAndHandleThem(listId, function(keys) {
+            for (var i = 0; i < keys.length; i++) {
+                retrieveURLs(keys[i], function(urls) {
+                });
+            }
+        });
     });
     
     btnRemove.addEventListener('click', function() {
