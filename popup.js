@@ -83,6 +83,10 @@ function formatKeyNameForDisplay(key) {
     return key.replace(new RegExp(APP_NAME + ' '), '');
 }
 
+function formRealKey(displayKey) {
+    return APP_NAME + ' ' + displayKey;
+}
+
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
         var keyText = formatKeyNameForDisplay(items[i]);
