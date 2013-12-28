@@ -79,9 +79,13 @@ function generateKeyName() {
     }
 }
 
+function formatKeyNameForDisplay(key) {
+    return key.replace(new RegExp(APP_NAME + ' '), '');
+}
+
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
-        var keyText = items[i].replace(new RegExp(APP_NAME + ' '), '');
+        var keyText = formatKeyNameForDisplay(items[i]);
         var listItem = document.createElement('label');
         var checkbox = document.createElement('input');
         var itemText = document.createTextNode(keyText);
