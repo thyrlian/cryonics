@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var key = generateKeyName();
         getURLs(function(urls) {
             saveURLs(key, urls, function() {
-                // addListItemsAsCheckboxes([key], listId);
                 updateListView(listId);
             });
         });
@@ -167,9 +166,10 @@ document.addEventListener('DOMContentLoaded', function() {
     btnOpen.addEventListener('click', function() {
         getCheckedKeysAndHandleThem(listId, function(keys) {
             for (var i = 0; i < keys.length; i++) {
-                retrieveURLs(keys[i], function(urls) {
-                });
+                retrieveURLs(keys[i], openURLs);
             }
+            removeURLs(keys);
+            updateListView(listId); // not really necessary, since popup will be closed anyway
         });
     });
     
