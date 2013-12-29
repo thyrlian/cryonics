@@ -63,13 +63,14 @@ function getCurrentTimestampAsFilename() {
     return filename;
 }
 
-function generateKeyName() {
+function generateKeyName(numberOfTabs) {
     var hint = document.getElementById('input-hint').value;
     var time = getCurrentTimestampAsFilename();
+    numberOfTabs = '(' + numberOfTabs + ' tabs' + ')';
     if (hint) {
-        return APP_NAME + ' ' + time + ' ' + hint;
+        return APP_NAME + ' ' + time + ' ' + hint + ' ' + numberOfTabs;
     } else {
-        return APP_NAME + ' ' + time;
+        return APP_NAME + ' ' + time + ' ' + numberOfTabs;
     }
 }
 
@@ -153,14 +154,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     btnSave.addEventListener('click', function() {
         var hintField = document.getElementById('input-hint');
-        var key = generateKeyName();
         getURLs(function(urls) {
+            var key = generateKeyName(urls.length);
             saveURLs(key, urls, function() {
                 updateListView(listId);
             });
+            hintField.value = '';
+            hintField.focus();
         });
-        hintField.value = '';
-        hintField.focus();
     });
     
     btnOpen.addEventListener('click', function() {
