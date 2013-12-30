@@ -91,7 +91,7 @@ function addListItemsAsCheckboxes(items, listId) {
         var linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('value', '');
-        checkbox.addEventListener('click', function() { clickHandler(listId); });
+        checkbox.addEventListener('click', makeClickHandler(listId));
         listItem.appendChild(checkbox);
         listItem.appendChild(itemText);
         listItem.appendChild(linebreak);
@@ -111,6 +111,12 @@ function clickHandler(listId) {
         btnOpen.disabled = true;
         btnRemove.disabled = true;
     }
+}
+
+function makeClickHandler(listId) {
+    return function() {
+        clickHandler(listId);
+    };
 }
 
 function updateListView(listId) {
