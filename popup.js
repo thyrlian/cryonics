@@ -134,6 +134,8 @@ function updateListView(listId) {
             btnOpen.style.visibility = 'visible';
             btnRemove.style.visibility = 'visible';
             textHint.style.visibility = 'visible';
+            btnOpen.disabled = true;
+            btnRemove.disabled = true;
         }
     });
 }
