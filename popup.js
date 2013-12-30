@@ -140,6 +140,12 @@ function updateListView(listId) {
     });
 }
 
+function resetHintFieldAndFocusOnIt() {
+    var hintField = document.getElementById('input-hint');
+    hintField.value = '';
+    hintField.focus();
+}
+
 function getCheckedKeysAndHandleThem(listId, callback) {
     var list = document.getElementById(listId);
     var items = list.querySelectorAll('input[type="checkbox"]:checked');
@@ -161,14 +167,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateListView(listId);
     
     btnSave.addEventListener('click', function() {
-        var hintField = document.getElementById('input-hint');
         getURLs(function(urls) {
             var key = generateKeyName(urls.length);
             saveURLs(key, urls, function() {
                 updateListView(listId);
             });
-            hintField.value = '';
-            hintField.focus();
+            resetHintFieldAndFocusOnIt();
         });
     });
     
