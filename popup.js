@@ -20,8 +20,19 @@ function saveURLs(key, urls, callback) {
 function retrieveURLs(key, callback) {
     STORAGE.get(key, function(items) {
         var urls = items[key];
-        callback(urls);
+        callback(key, urls);
     });
+}
+
+function openURLsFromMultipleKeysAndThenRemoveThem(keys) {
+    var openAndThenRemove = function(key, urls) {
+        openURLs(urls);
+        removeURLs([key]);
+    };
+    
+    for (var i = 0; i < keys.length; i++) {
+        retrieveURLs(keys[i], openAndThenRemove);
+    }
 }
 
 function getKeysBeginWithPatternFromStorage(pattern, callback) {
@@ -161,28 +172,22 @@ document.addEventListener('DOMContentLoaded', function() {
     var btnSave = document.getElementById('save');
     var btnOpen = document.getElementById('open');
     var btnRemove = document.getElementById('remove');
-    
     var listId = 'list';
     
     updateListView(listId);
     
     btnSave.addEventListener('click', function() {
         getURLs(function(urls) {
-            var key = generateKeyName(urls.length);
-            saveURLs(key, urls, function() {
+            saveURLs(generateKeyName(urls.length), urls, function() {
                 updateListView(listId);
+                resetHintFieldAndFocusOnIt();
             });
-            resetHintFieldAndFocusOnIt();
         });
     });
     
     btnOpen.addEventListener('click', function() {
         getCheckedKeysAndHandleThem(listId, function(keys) {
-            for (var i = 0; i < keys.length; i++) {
-                retrieveURLs(keys[i], openURLs);
-            }
-            removeURLs(keys);
-            updateListView(listId); // not really necessary, since popup will be closed anyway
+            openURLsFromMultipleKeysAndThenRemoveThem(keys);
         });
     });
     
