@@ -85,7 +85,7 @@ function generateKeyName(numberOfTabs) {
     }
 }
 
-function formRealKey(displayKey) {
+function getRealKey(displayKey) {
     return APP_NAME + ' ' + displayKey;
 }
 
@@ -177,7 +177,7 @@ function getCheckedKeysAndHandleThem(listId, callback) {
     var items = list.querySelectorAll('input[type="checkbox"]:checked');
     var keys = [];
     for (var i = 0; i < items.length; i++) {
-        var key = formRealKey(items[i].parentNode.textContent);
+        var key = getRealKey(items[i].parentNode.textContent);
         keys.push(key);
     }
     callback(keys);
