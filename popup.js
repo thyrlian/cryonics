@@ -85,26 +85,41 @@ function generateKeyName(numberOfTabs) {
     }
 }
 
-function formatKeyNameForDisplay(key) {
-    return key.replace(new RegExp(APP_NAME + ' '), '');
-}
-
 function formRealKey(displayKey) {
     return APP_NAME + ' ' + displayKey;
 }
 
+function appendKeyTextChild(parent, key) {
+    var regexAppName = new RegExp(APP_NAME + ' ');
+    var regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\s/;
+    var regexTabs = /\(\d+\stabs\)/;
+    var time = key.match(regexTime)[0];
+    var tabs = key.match(regexTabs)[0];
+    var hint = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '');
+    var textNodeTime = document.createTextNode(time);
+    var spanTabs = document.createElement('span');
+    spanTabs.setAttribute('id', 'key-tabs');
+    spanTabs.innerHTML = tabs;
+    parent.appendChild(textNodeTime);
+    if (hint.length != 0) {
+        var spanHint = document.createElement('span');
+        spanHint.setAttribute('id', 'key-hint');
+        spanHint.innerHTML = hint;
+        parent.appendChild(spanHint);
+    }
+    parent.appendChild(spanTabs);
+}
+
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
-        var keyText = formatKeyNameForDisplay(items[i]);
         var listItem = document.createElement('label');
         var checkbox = document.createElement('input');
-        var itemText = document.createTextNode(keyText);
         var linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('value', '');
         checkbox.addEventListener('click', makeClickHandler(listId));
         listItem.appendChild(checkbox);
-        listItem.appendChild(itemText);
+        appendKeyTextChild(listItem, items[i]);
         listItem.appendChild(linebreak);
         document.getElementById(listId).appendChild(listItem);
     }

@@ -18,6 +18,14 @@ p {
   display: block;
 }
 
+#key-tabs {
+  color: #005580;
+}
+
+#key-hint {
+  color: #CC8800;
+}
+
 .edittext {
   background-color: #FFFFFF;
   background-image: none;
