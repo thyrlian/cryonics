@@ -18,12 +18,26 @@ p {
   display: block;
 }
 
-#key-tabs {
+#list:hover span {
   color: #005580;
 }
 
+label {
+  display: block;
+}
+
+label:hover,
+label:focus {
+  color: #005580;
+  background-color: #eeeeee;
+}
+
+#key-tabs {
+  color: #E88E0C;
+}
+
 #key-hint {
-  color: #CC8800;
+  color: #6A0CE8;
 }
 
 .edittext {
@@ -48,16 +62,6 @@ p {
   display: block;
   line-height: 1.42857;
   font-size: 85%;
-}
-
-label {
-  display: block;
-}
-
-label:hover,
-label:focus {
-  color: #005580;
-  background-color: #eeeeee;
 }
 
 button {
