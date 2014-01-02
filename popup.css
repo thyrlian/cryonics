@@ -18,10 +18,6 @@ p {
   display: block;
 }
 
-#list:hover span {
-  color: #005580;
-}
-
 label {
   display: block;
 }
