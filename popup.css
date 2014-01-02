@@ -31,11 +31,11 @@ label:hover {
   background-color: #eeeeee;
 }
 
-#key-tabs {
+.key-tabs {
   color: #E88E0C;
 }
 
-#key-hint {
+.key-hint {
   color: #6A0CE8;
   font-weight: bold;
 }

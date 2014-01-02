@@ -98,12 +98,12 @@ function appendKeyTextChild(parent, key) {
     var hint = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '');
     var textNodeTime = document.createTextNode(time);
     var spanTabs = document.createElement('span');
-    spanTabs.setAttribute('id', 'key-tabs');
+    spanTabs.setAttribute('class', 'key-tabs');
     spanTabs.innerHTML = tabs;
     parent.appendChild(textNodeTime);
     if (hint.length != 0) {
         var spanHint = document.createElement('span');
-        spanHint.setAttribute('id', 'key-hint');
+        spanHint.setAttribute('class', 'key-hint');
         spanHint.innerHTML = hint;
         parent.appendChild(spanHint);
     }
