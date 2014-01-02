@@ -38,6 +38,7 @@ label:focus {
 
 #key-hint {
   color: #6A0CE8;
+  font-weight: bold;
 }
 
 .edittext {
