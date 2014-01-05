@@ -166,6 +166,11 @@ function updateListView(listId) {
     });
 }
 
+function focusOnHintField() {
+    var hintField = document.getElementById('input-hint');
+    hintField.focus();
+}
+
 function resetHintFieldAndFocusOnIt() {
     var hintField = document.getElementById('input-hint');
     hintField.value = '';
@@ -221,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
         getCheckedKeysAndHandleThem(listId, function(keys) {
             removeURLs(keys, function() {
                 updateListView(listId);
+                focusOnHintField();
             });
         });
     });
