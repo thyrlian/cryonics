@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var listId = 'list';
     
     updateListView(listId);
+    focusOnHintField();
     
     txtHint.addEventListener('keypress', function(event) {
         clickButtonOnEnterKeyPressed(btnSave, event);
