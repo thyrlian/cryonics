@@ -183,13 +183,24 @@ function getCheckedKeysAndHandleThem(listId, callback) {
     callback(keys);
 }
 
+function clickButtonOnEnterKeyPressed(button, event) {
+    if (event.keyCode == 13) {
+        button.click();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     var btnSave = document.getElementById('save');
     var btnOpen = document.getElementById('open');
     var btnRemove = document.getElementById('remove');
+    var txtHint = document.getElementById('input-hint');
     var listId = 'list';
     
     updateListView(listId);
+    
+    txtHint.addEventListener('keypress', function(event) {
+        clickButtonOnEnterKeyPressed(btnSave, event);
+    });
     
     btnSave.addEventListener('click', function() {
         getURLs(function(urls) {
