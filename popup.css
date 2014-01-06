@@ -28,12 +28,7 @@ label:hover {
   background-color: #eeeeee;
 }
 
-label:hover .key-tabs {
-  color: #005580;
-  background-color: #eeeeee;
-}
-
-label:hover .key-hint {
+label:hover .key-tabs, label:hover .key-hint {
   color: #005580;
   background-color: #eeeeee;
 }
