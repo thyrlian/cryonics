@@ -194,6 +194,29 @@ function clickButtonOnEnterKeyPressed(button, event) {
     }
 }
 
+function attachDebugInfo(keys) {
+    var debugDivision = document.getElementById('debug');
+    var list = document.createElement('ol');
+    var debugSeparator = document.createElement('p');
+    debugSeparator.appendChild(document.createTextNode('==================== DEBUG ===================='));
+    debugDivision.innerHTML = '';
+    debugDivision.appendChild(debugSeparator);
+    debugDivision.appendChild(list);
+    
+    var attachURLs = function(key, urls) {
+        for (var i = 0; i < urls.length; i++) {
+            var item = document.createElement('li');
+            var text = document.createTextNode(urls[i]);
+            item.appendChild(text);
+            list.appendChild(item);
+        }
+    };
+    
+    for (var i = 0; i < keys.length; i++) {
+        retrieveURLs(keys[i], attachURLs);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     var btnSave = document.getElementById('save');
     var btnOpen = document.getElementById('open');
