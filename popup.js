@@ -121,6 +121,7 @@ function addListItemsAsCheckboxes(items, listId) {
         listItem.appendChild(checkbox);
         appendKeyTextChild(listItem, items[i]);
         listItem.appendChild(linebreak);
+        addExpandList(listItem, items[i]);
         document.getElementById(listId).appendChild(listItem);
     }
 }
@@ -182,7 +183,9 @@ function getCheckedKeysAndHandleThem(listId, callback) {
     var items = list.querySelectorAll('input[type="checkbox"]:checked');
     var keys = [];
     for (var i = 0; i < items.length; i++) {
-        var key = getRealKey(items[i].parentNode.textContent);
+        var text = items[i].parentNode.textContent;
+        var regexKey = /^.*?\(\d+\stabs\)/;
+        var key = getRealKey(text.match(regexKey)[0]);
         keys.push(key);
     }
     callback(keys);
@@ -192,6 +195,23 @@ function clickButtonOnEnterKeyPressed(button, event) {
     if (event.keyCode == 13) {
         button.click();
     }
+}
+
+function addExpandList(parent, key) {
+    var list = document.createElement('ol');
+    list.setAttribute('class', 'urlsList');
+    
+    var appendURLsToList = function(key, urls) {
+        for (var i = 0; i < urls.length; i++) {
+            var item = document.createElement('li');
+            var text = document.createTextNode(urls[i]);
+            item.appendChild(text);
+            list.appendChild(item);
+        }
+        parent.appendChild(list);
+    };
+    
+    retrieveURLs(key, appendURLsToList);
 }
 
 function attachDebugInfo(keys) {
