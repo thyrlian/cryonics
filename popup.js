@@ -184,7 +184,7 @@ function getCheckedKeysAndHandleThem(listId, callback) {
     var keys = [];
     for (var i = 0; i < items.length; i++) {
         var text = items[i].parentNode.textContent;
-        var regexKey = /^.*?\(\d+\stabs\)/;
+        var regexKey = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\s.*?\(\d+\stabs\)/;
         var key = getRealKey(text.match(regexKey)[0]);
         keys.push(key);
     }
