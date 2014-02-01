@@ -110,7 +110,7 @@ function appendKeyTextChild(parent, key) {
     parent.appendChild(spanTabs);
 }
 
-function addListItemsAsCheckboxes(items, listId) {
+function addListItemsWithCheckboxes(items, listId, callback) {
     for (var i = 0; i < items.length; i++) {
         var listItem = document.createElement('label');
         var checkbox = document.createElement('input');
@@ -121,9 +121,30 @@ function addListItemsAsCheckboxes(items, listId) {
         listItem.appendChild(checkbox);
         appendKeyTextChild(listItem, items[i]);
         listItem.appendChild(linebreak);
-        addExpandList(listItem, items[i]);
+        callback(listItem, items[i]);
         document.getElementById(listId).appendChild(listItem);
     }
+}
+
+function addExpandableListItemsWithCheckboxes(items, listId) {
+    addListItemsWithCheckboxes(items, listId, addURLsListToExpandableParent);
+}
+
+function addURLsListToExpandableParent(parent, key) {
+    var list = document.createElement('ol');
+    list.setAttribute('class', 'urlsList');
+    
+    var appendURLsToList = function(key, urls) {
+        for (var i = 0; i < urls.length; i++) {
+            var item = document.createElement('li');
+            var text = document.createTextNode(urls[i]);
+            item.appendChild(text);
+            list.appendChild(item);
+        }
+        parent.appendChild(list);
+    };
+    
+    retrieveURLs(key, appendURLsToList);
 }
 
 function clickHandler(listId) {
@@ -157,7 +178,7 @@ function updateListView(listId) {
             btnRemove.style.visibility = 'hidden';
             textHint.style.visibility = 'hidden';
         } else {
-            addListItemsAsCheckboxes(keys, listId);
+            addExpandableListItemsWithCheckboxes(keys, listId);
             btnOpen.style.visibility = 'visible';
             btnRemove.style.visibility = 'visible';
             textHint.style.visibility = 'visible';
@@ -195,23 +216,6 @@ function clickButtonOnEnterKeyPressed(button, event) {
     if (event.keyCode == 13) {
         button.click();
     }
-}
-
-function addExpandList(parent, key) {
-    var list = document.createElement('ol');
-    list.setAttribute('class', 'urlsList');
-    
-    var appendURLsToList = function(key, urls) {
-        for (var i = 0; i < urls.length; i++) {
-            var item = document.createElement('li');
-            var text = document.createTextNode(urls[i]);
-            item.appendChild(text);
-            list.appendChild(item);
-        }
-        parent.appendChild(list);
-    };
-    
-    retrieveURLs(key, appendURLsToList);
 }
 
 function attachDebugInfo(keys) {
