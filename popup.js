@@ -130,21 +130,29 @@ function addExpandableListItemsWithCheckboxes(items, listId) {
     addListItemsWithCheckboxes(items, listId, addURLsListToExpandableParent);
 }
 
-function addSubListToExpandableParent(parentElement, subList, subListStyleClass) {
+function addSubListToExpandableParent(parentElement, subList, subListStyleClass, callback) {
     var list = document.createElement('ol');
     list.setAttribute('class', subListStyleClass);
     for (var i = 0; i < subList.length; i++) {
         var item = document.createElement('li');
-        var text = document.createTextNode(subList[i]);
-        item.appendChild(text);
+        var subElement = callback(subList[i]);
+        item.appendChild(subElement);
         list.appendChild(item);
     }
     parentElement.appendChild(list);
 }
 
+function createLinkElement(url) {
+    var link = document.createElement('a');
+    var text = document.createTextNode(url);
+    link.setAttribute('href', url);
+    link.appendChild(text);
+    return link;
+}
+
 function addURLsListToExpandableParent(parentElement, key) {
     var appendURLsToList = function(key, urls) {
-        addSubListToExpandableParent(parentElement, urls, 'urlsList');
+        addSubListToExpandableParent(parentElement, urls, 'urlsList', createLinkElement);
     };
     retrieveURLs(key, appendURLsToList);
 }
