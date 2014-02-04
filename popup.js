@@ -144,10 +144,17 @@ function addSubListToExpandableParent(parentElement, subList, subListStyleClass,
 
 function createLinkElement(url) {
     var link = document.createElement('a');
-    var text = document.createTextNode(url);
+    var text = document.createTextNode(truncateTextWithEllipsis(url, 35));
     link.setAttribute('href', url);
     link.appendChild(text);
     return link;
+}
+
+function truncateTextWithEllipsis(text, length) {
+    if (text.length > length) {
+        text = text.substr(0, length + 1) + '...';
+    }
+    return text;
 }
 
 function addURLsListToExpandableParent(parentElement, key) {
