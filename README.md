@@ -11,7 +11,7 @@ Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-under
 > **Cryonics** (from Greek κρύος 'kryos-' meaning 'cold') is the low-temperature preservation (usually at -196°C) of people who cannot be sustained by contemporary medicine, with the hope that resuscitation and restoration to full health may be possible in the far future. Cryopreservation of humans is not reversible with present technology; cryonicists hope that medical advances will someday allow cryopreserved people to be revived.
 > - [Wikipedia](https://en.wikipedia.org/wiki/Cryonics)
 
-##Features
+## Features
 
  ✭ Saved data can be automatically synced with Chrome sync (no other account needed).
 
@@ -35,5 +35,6 @@ To build and test this Chrome extension locally, please follow below steps:
 * Make sure on the extensions page the **"Developer mode"** is switched **ON** (it's on the top right).
 * Click the **"Load unpacked"** button and select the extension directory.
 
-##License
+## License
+
 Copyright (c) 2013-2023 Jing Li. **Cryonics** is released under the Apache License version 2.0. See the [LICENSE](https://github.com/thyrlian/cryonics/blob/master/LICENSE) file for details.
