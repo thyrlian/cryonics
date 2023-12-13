@@ -12,6 +12,7 @@ Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-under
 > - [Wikipedia](https://en.wikipedia.org/wiki/Cryonics)
 
 ##Features
+
  ✭ Saved data can be automatically synced with Chrome sync (no other account needed).
 
  ✭ Neat UI, powered by Twitter's Bootstrap.
@@ -25,6 +26,14 @@ Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-under
  ✭ Right after saved tabs are opened, the saved entry will be automatically removed. (GTD - Getting Things Done)
 
  ✍ Project is open sourced at https://github.com/thyrlian/cryonics
+
+## Build & Test
+
+To build and test this Chrome extension locally, please follow below steps:
+
+* Open Chrome, go to `chrome://extensions/`.
+* Make sure on the extensions page the **"Developer mode"** is switched **ON** (it's on the top right).
+* Click the **"Load unpacked"** button and select the extension directory.
 
 ##License
 Copyright (c) 2013-2023 Jing Li. **Cryonics** is released under the Apache License version 2.0. See the [LICENSE](https://github.com/thyrlian/cryonics/blob/master/LICENSE) file for details.
