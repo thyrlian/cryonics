@@ -27,4 +27,4 @@ Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-under
  ✍ Project is open sourced at https://github.com/thyrlian/cryonics
 
 ##License
-Copyright (c) 2013 Jing Li. **Cryonics** is released under the Apache License version 2.0. See the [LICENSE](https://github.com/thyrlian/cryonics/blob/master/LICENSE) file for details.
+Copyright (c) 2013-2023 Jing Li. **Cryonics** is released under the Apache License version 2.0. See the [LICENSE](https://github.com/thyrlian/cryonics/blob/master/LICENSE) file for details.
