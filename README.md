@@ -31,7 +31,7 @@ Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-under
 
 To build and test this Chrome extension locally, please follow below steps:
 
-* Open Chrome, go to `chrome://extensions/`.
+* Open Chrome, go to ***[chrome://extensions/](chrome://extensions/)***.
 * Make sure on the extensions page the **"Developer mode"** is switched **ON** (it's on the top right).
 * Click the **"Load unpacked"** button and select the extension directory.
 
