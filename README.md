@@ -37,7 +37,9 @@ To build and test this Chrome extension locally, please follow below steps:
 
 ## Release
 
-* Navigate to the inside of the extension directory, create a ZIP file: `zip -r ../cryonics.zip * -x Cryonics.jpg -x LICENSE -x PRIVACY_POLICY.md -x README.md`.
+* Navigate to the inside of the extension directory, create a ZIP file:
+
+  `zip -r ../cryonics.zip * -x Cryonics.jpg -x LICENSE -x PRIVACY_POLICY.md -x README.md`.
 * Go to [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard), click the item (extension) to its details page.
 * Click **"Package"** on the left navigation menu, then click the **"Upload new package"** button shows on the top right.
 * After successfully uploading, click **"Save draft"**.
