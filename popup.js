@@ -75,11 +75,11 @@ function getCurrentTimestampAsFilename() {
 }
 
 function generateKeyName(numberOfTabs) {
-    var hint = document.getElementById('input-hint').value;
+    var name = document.getElementById('input-name').value;
     var time = getCurrentTimestampAsFilename();
     numberOfTabs = '(' + numberOfTabs + ' tabs' + ')';
-    if (hint) {
-        return APP_NAME + ' ' + time + ' ' + hint + ' ' + numberOfTabs;
+    if (name) {
+        return APP_NAME + ' ' + time + ' ' + name + ' ' + numberOfTabs;
     } else {
         return APP_NAME + ' ' + time + ' ' + numberOfTabs;
     }
@@ -90,9 +90,9 @@ function getRealKey(displayKey) {
     var regexTabs = /\(\d+\stabs\)/;
     var time = displayKey.match(regexTime)[0];
     var tabs = displayKey.match(regexTabs)[0];
-    var hint = displayKey.replace(time, '').replace(tabs, '').trim();
-    if (hint.length > 0) {
-        return APP_NAME + ' ' + time + ' ' + hint + ' ' + tabs;
+    var name = displayKey.replace(time, '').replace(tabs, '').trim();
+    if (name.length > 0) {
+        return APP_NAME + ' ' + time + ' ' + name + ' ' + tabs;
     } else {
         return APP_NAME + ' ' + time + ' ' + tabs;
     }
@@ -105,11 +105,11 @@ function appendKeyTextChild(parent, key) {
     
     var time = key.match(regexTime)[0];
     var tabs = key.match(regexTabs)[0];
-    var hint = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '');
+    var name = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '');
     
-    var spanHint = document.createElement('span');
-    spanHint.setAttribute('class', 'key-hint');
-    spanHint.innerHTML = hint;
+    var spanName = document.createElement('span');
+    spanName.setAttribute('class', 'key-name');
+    spanName.innerHTML = name;
 
     var spanTabs = document.createElement('span');
     spanTabs.setAttribute('class', 'key-tabs');
@@ -124,7 +124,7 @@ function appendKeyTextChild(parent, key) {
     divInfo.appendChild(spanTime);
     divInfo.appendChild(spanTabs);
 
-    parent.appendChild(spanHint);
+    parent.appendChild(spanName);
     parent.appendChild(divInfo);
 }
 
@@ -184,15 +184,15 @@ function updateListView(listId) {
     });
 }
 
-function focusOnHintField() {
-    var hintField = document.getElementById('input-hint');
-    hintField.focus();
+function focusOnNameField() {
+    var nameField = document.getElementById('input-name');
+    nameField.focus();
 }
 
-function resetHintFieldAndFocusOnIt() {
-    var hintField = document.getElementById('input-hint');
-    hintField.value = '';
-    hintField.focus();
+function resetNameFieldAndFocusOnIt() {
+    var nameField = document.getElementById('input-name');
+    nameField.value = '';
+    nameField.focus();
 }
 
 function getCheckedKeysAndHandleThem(listId, callback) {
@@ -239,13 +239,13 @@ document.addEventListener('DOMContentLoaded', function() {
     var btnSave = document.getElementById('save');
     var btnOpen = document.getElementById('open');
     var btnRemove = document.getElementById('remove');
-    var txtHint = document.getElementById('input-hint');
+    var txtName = document.getElementById('input-name');
     var listId = 'list';
     
     updateListView(listId);
-    focusOnHintField();
+    focusOnNameField();
     
-    txtHint.addEventListener('keypress', function(event) {
+    txtName.addEventListener('keypress', function(event) {
         clickButtonOnEnterKeyPressed(btnSave, event);
     });
     
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
         getURLs(function(urls) {
             saveURLs(generateKeyName(urls.length), urls, function() {
                 updateListView(listId);
-                resetHintFieldAndFocusOnIt();
+                resetNameFieldAndFocusOnIt();
             });
         });
     });
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
         getCheckedKeysAndHandleThem(listId, function(keys) {
             removeURLs(keys, function() {
                 updateListView(listId);
-                focusOnHintField();
+                focusOnNameField();
             });
         });
     });

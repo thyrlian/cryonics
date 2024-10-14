@@ -72,7 +72,7 @@ p {
   border-color: #999;
 }
 
-#list .key-hint {
+#list .key-name {
   color: #6A0CE8;
   font-weight: bold;
   overflow: hidden;
@@ -169,7 +169,7 @@ p {
 }
 
 #list input[type="checkbox"]:checked ~ .key-tabs,
-#list input[type="checkbox"]:checked ~ .key-hint {
+#list input[type="checkbox"]:checked ~ .key-name {
   transition-delay: 0s; 
   color: #5EBEC1; 
   opacity: 0.6; 
@@ -202,7 +202,7 @@ label:hover {
   background-color: #eeeeee;
 }
 
-label:hover .key-tabs, label:hover .key-hint {
+label:hover .key-tabs, label:hover .key-name {
   color: #005580;
   background-color: #eeeeee;
 }
@@ -211,7 +211,7 @@ label:hover .key-tabs, label:hover .key-hint {
   color: #E88E0C;
 }
 
-.key-hint {
+.key-name {
   color: #6A0CE8;
   font-weight: bold;
 }
