@@ -51,4 +51,4 @@ Please read the details [here](https://github.com/thyrlian/cryonics/blob/master/
 
 ## License
 
-Copyright (c) 2013-2023 Jing Li. **Cryonics** is released under the Apache License version 2.0. See the [LICENSE](https://github.com/thyrlian/cryonics/blob/master/LICENSE) file for details.
+Copyright (c) 2013-2024 Jing Li. **Cryonics** is released under the Apache License version 2.0. See the [LICENSE](https://github.com/thyrlian/cryonics/blob/master/LICENSE) file for details.

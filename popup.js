@@ -86,28 +86,46 @@ function generateKeyName(numberOfTabs) {
 }
 
 function getRealKey(displayKey) {
-    return APP_NAME + ' ' + displayKey;
+    var regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
+    var regexTabs = /\(\d+\stabs\)/;
+    var time = displayKey.match(regexTime)[0];
+    var tabs = displayKey.match(regexTabs)[0];
+    var hint = displayKey.replace(time, '').replace(tabs, '').trim();
+    if (hint.length > 0) {
+        return APP_NAME + ' ' + time + ' ' + hint + ' ' + tabs;
+    } else {
+        return APP_NAME + ' ' + time + ' ' + tabs;
+    }
 }
 
 function appendKeyTextChild(parent, key) {
     var regexAppName = new RegExp(APP_NAME + ' ');
     var regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\s/;
     var regexTabs = /\(\d+\stabs\)/;
+    
     var time = key.match(regexTime)[0];
     var tabs = key.match(regexTabs)[0];
     var hint = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '');
-    var textNodeTime = document.createTextNode(time);
+    
+    var spanHint = document.createElement('span');
+    spanHint.setAttribute('class', 'key-hint');
+    spanHint.innerHTML = hint;
+
     var spanTabs = document.createElement('span');
     spanTabs.setAttribute('class', 'key-tabs');
     spanTabs.innerHTML = tabs;
-    parent.appendChild(textNodeTime);
-    if (hint.length != 0) {
-        var spanHint = document.createElement('span');
-        spanHint.setAttribute('class', 'key-hint');
-        spanHint.innerHTML = hint;
-        parent.appendChild(spanHint);
-    }
-    parent.appendChild(spanTabs);
+
+    var spanTime = document.createElement('span');
+    spanTime.setAttribute('class', 'key-time');
+    spanTime.innerHTML = time;
+
+    var divInfo = document.createElement('div');
+    divInfo.setAttribute('class', 'key-info');
+    divInfo.appendChild(spanTime);
+    divInfo.appendChild(spanTabs);
+
+    parent.appendChild(spanHint);
+    parent.appendChild(divInfo);
 }
 
 function addListItemsAsCheckboxes(items, listId) {
