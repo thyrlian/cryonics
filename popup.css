@@ -1,18 +1,107 @@
 body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  width: 350px;
 }
 
-p {
-  margin: 0 0 10px;
+.top-bar, .bottom-bar {
+  background-color: #f8f9fa;
+  padding: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  z-index: 10;
+}
+
+.top-bar {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-bar {
+  display: flex;
+  flex-direction: column;
+}
+
+#input-name {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 5px;
+}
+
+#save {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+  color: #FFFFFF;
+}
+
+#hint-save {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+#open, #remove {
+  width: 40%;
+}
+
+#open {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #FFFFFF;
+}
+
+#remove {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #FFFFFF;
+}
+
+#hint-open {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+#save:hover, #save:focus, #save:active {
+  background-color: #5a32a3;
+  border-color: #542f9a;
+}
+
+#open:hover, #open:focus, #open:active {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+#remove:hover, #remove:focus, #remove:active {
+  background-color: #c82333;
+  border-color: #bd2130;
 }
 
 #list {
-  background: #FFF; 
-  font-size: 16px;
-  width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
   padding: 0;
+  margin: 0;
+  font-size: 16px;
+  background: #FFF;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -21,7 +110,7 @@ p {
   align-items: center;
   justify-content: space-between;
   padding: 0.6em 0.8em;
-  cursor: pointer; 
+  cursor: pointer;
   border-bottom: solid 1px #ddd;
   background-color: #f9f9f9;
   overflow: hidden;
@@ -215,183 +304,4 @@ label:hover .key-tabs, label:hover .key-name {
 .key-name {
   color: #6A0CE8;
   font-weight: bold;
-}
-
-.edittext {
-  background-color: #FFFFFF;
-  background-image: none;
-  border: 1px solid #CCCCCC;
-  border-radius: 4px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  color: #555555;
-  font-size: 14px;
-  height: 16px;
-  padding: 6px 6px;
-  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-  vertical-align: middle;
-  margin: 0;
-  opacity: 1;
-  width: 100px;
-}
-
-.hint {
-  color: #999999;
-  display: block;
-  line-height: 1.42857;
-  font-size: 85%;
-}
-
-button {
-  font-family: inherit;
-  text-transform: none;
-}
-
-.btn {
-  background-image: none;
-  border: 1px solid transparent;
-  border-top-width: 1px;
-  border-right-width-value: 1px;
-  border-right-width-ltr-source: physical;
-  border-right-width-rtl-source: physical;
-  border-bottom-width: 1px;
-  border-left-width-value: 1px;
-  border-left-width-ltr-source: physical;
-  border-left-width-rtl-source: physical;
-  border-top-style: solid;
-  border-right-style-value: solid;
-  border-right-style-ltr-source: physical;
-  border-right-style-rtl-source: physical;
-  border-bottom-style: solid;
-  border-left-style-value: solid;
-  border-left-style-ltr-source: physical;
-  border-left-style-rtl-source: physical;
-  border-image-source: none;
-  border-image-slice: 100% 100% 100% 100%;
-  border-image-width: 1 1 1 1;
-  border-image-outset: 0 0 0 0;
-  border-image-repeat: stretch stretch;
-  border-radius: 4px;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.42857;
-  padding: 6px 12px;
-  margin-bottom: 5px;
-  margin-top: 5px;
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.btn:hover,
-.btn:focus {
-  color: #333333;
-  text-decoration: none;
-  background-position: 0 -15px;
-  -webkit-transition: background-position 0.1s linear;
-     -moz-transition: background-position 0.1s linear;
-       -o-transition: background-position 0.1s linear;
-          transition: background-position 0.1s linear;
-}
-
-.btn:focus {
-  outline: thin dotted #333;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-
-.btn:hover,
-.btn:focus,
-.btn:active,
-.btn.active,
-.btn.disabled,
-.btn[disabled] {
-  color: #333333;
-  background-color: #e6e6e6;
-  *background-color: #d9d9d9;
-}
-
-.btn:active {
-  background-color: #cccccc \9;
-  background-image: none;
-  outline: 0;
-  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-     -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.btn.disabled,
-.btn[disabled] {
-  cursor: default;
-  background-image: none;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-     -moz-box-shadow: none;
-          box-shadow: none;
-}
-
-#buttons {
-  overflow: auto;
-  margin-top: 1em;
-}
-
-#save {
-  background-color: #6f42c1;
-  border-color: #6f42c1;
-  color: #FFFFFF;
-  margin-left: 10px;
-}
-
-#open {
-  background-color: #28a745;
-  border-color: #28a745;
-  color: #FFFFFF;
-  width: 72px;
-  float: left;
-  margin-left: 20px;
-}
-
-#remove {
-  background-color: #dc3545;
-  border-color: #dc3545;
-  color: #FFFFFF;
-  width: 72px;
-  padding: 6px 6px;
-  float: right;
-  margin-right: 20px;
-}
-
-#save:hover,
-#save:focus,
-#save:active,
-#save.active,
-#save.disabled,
-#save[disabled] {
-  color: #FFFFFF;
-  background-color: #5a32a3;
-  border-color: #542f9a;
-}
-
-#open:hover,
-#open:focus,
-#open:active,
-#open.active,
-#open.disabled,
-#open[disabled] {
-  color: #FFFFFF;
-  background-color: #218838;
-  border-color: #1e7e34;
-}
-
-#remove:hover,
-#remove:focus,
-#remove:active,
-#remove.active,
-#remove.disabled,
-#remove[disabled] {
-  color: #FFFFFF;
-  background-color: #c82333;
-  border-color: #bd2130;
 }
