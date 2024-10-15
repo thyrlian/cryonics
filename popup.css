@@ -153,8 +153,12 @@ body {
 }
 
 #list input[type="checkbox"]:focus {
-  outline: max(1px, 0.1em) solid #0077ff;
-  outline-offset: max(1px, 0.1em);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0,119,255,0.3);
+}
+
+#list input[type="checkbox"]:not(:checked):focus {
+  box-shadow: none;
 }
 
 #list input[type="checkbox"]:hover {
