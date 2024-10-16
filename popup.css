@@ -19,11 +19,13 @@ body {
 .top-bar {
   display: flex;
   flex-direction: column;
+  padding: 10px;
 }
 
 .bottom-bar {
   display: flex;
   flex-direction: column;
+  padding: 10px;
 }
 
 #input-name {
@@ -39,13 +41,14 @@ body {
 }
 
 #hint-save {
-  margin: 5px 0 0;
+  margin: 10px 0;
   font-size: 12px;
   color: #6c757d;
 }
 
 .btn {
   padding: 6px 12px;
+  margin-top: 10px;
   font-size: 14px;
   border-radius: 4px;
   cursor: pointer;
@@ -75,7 +78,7 @@ body {
 }
 
 #hint-open {
-  margin: 5px 0 0;
+  margin: 10px 0;
   font-size: 12px;
   color: #6c757d;
 }
