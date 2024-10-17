@@ -131,6 +131,7 @@ function appendKeyTextChild(parent, key) {
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
         var listItem = document.createElement('label');
+        listItem.setAttribute('data-key', items[i]);
         var checkbox = document.createElement('input');
         var linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
@@ -163,11 +164,16 @@ function makeClickHandler(listId) {
     };
 }
 
-function updateListView(listId) {
+function updateListView(listId, callback) {
+    var list = document.getElementById(listId);
+    var currentHeight = list.offsetHeight;
+    list.style.minHeight = currentHeight + 'px';
+
     var btnOpen = document.getElementById('open');
     var btnRemove = document.getElementById('remove');
     var textHint = document.getElementById('hint-open');
-    document.getElementById(listId).innerHTML = '';
+    list.innerHTML = '';
+    
     getKeysBeginWithPatternFromStorage(APP_NAME, function(keys) {
         if (keys.length == 0) {
             btnOpen.style.visibility = 'hidden';
@@ -181,6 +187,12 @@ function updateListView(listId) {
             btnOpen.disabled = true;
             btnRemove.disabled = true;
         }
+        
+        setTimeout(() => {
+            list.style.minHeight = '';
+        }, 300);
+
+        if (callback) callback();
     });
 }
 
@@ -235,6 +247,50 @@ function attachDebugInfo(keys) {
     }
 }
 
+function notifyItemAdded(newKey) {
+  // Show notification
+  const notification = document.getElementById('notification');
+  notification.classList.remove('hidden');
+  setTimeout(() => {
+    notification.classList.add('hidden');
+  }, 2000);
+
+  // Update the list view
+  const list = document.getElementById('list');
+  const isScrolledToBottom = list.scrollHeight - list.scrollTop === list.clientHeight;
+
+  updateListView('list', function() {
+    // After the list is updated, find the new item
+    const newItem = document.querySelector(`label[data-key="${newKey}"]`);
+    if (newItem) {
+      if (isScrolledToBottom) {
+        // If we were at the bottom, scroll to the new item
+        newItem.scrollIntoView({ behavior: 'auto', block: 'end' });
+      } else {
+        // Check if the new item is in view
+        const rect = newItem.getBoundingClientRect();
+        const listRect = list.getBoundingClientRect();
+        if (rect.bottom > listRect.bottom || rect.top < listRect.top) {
+          // If not in view, scroll to it
+          newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+      
+      // Highlight the new item without changing its size
+      requestAnimationFrame(() => {
+        newItem.style.transition = 'background-color 0.3s ease-in-out';
+        newItem.style.backgroundColor = '#fffacd';
+        setTimeout(() => {
+          newItem.style.backgroundColor = '';
+          setTimeout(() => {
+            newItem.style.transition = '';
+          }, 300);
+        }, 1500);
+      });
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     var btnSave = document.getElementById('save');
     var btnOpen = document.getElementById('open');
@@ -251,8 +307,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     btnSave.addEventListener('click', function() {
         getURLs(function(urls) {
-            saveURLs(generateKeyName(urls.length), urls, function() {
-                updateListView(listId);
+            const newKey = generateKeyName(urls.length);
+            saveURLs(newKey, urls, function() {
+                notifyItemAdded(newKey);
                 resetNameFieldAndFocusOnIt();
             });
         });

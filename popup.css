@@ -323,3 +323,34 @@ label:hover .key-tabs, label:hover .key-name {
   color: #6A0CE8;
   font-weight: bold;
 }
+
+.notification {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  pointer-events: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(100%);
+}
+
+.highlight {
+  animation: highlightFade 1.5s ease-in-out;
+}
+
+@keyframes highlightFade {
+  0% { background-color: #fffacd; }
+  100% { background-color: transparent; }
+}
