@@ -50,10 +50,18 @@ function getKeysBeginWithPatternFromStorage(pattern, callback) {
 }
 
 function removeURLs(keys, callback) {
+    var list = document.getElementById('list');
+    var scrollTop = list.scrollTop;
+
     for (var i = 0; i < keys.length; i++) {
         STORAGE.remove(keys[i]);
     }
-    callback();
+
+    updateListView('list', function() {
+        list.scrollTop = scrollTop;
+        focusOnNameField();
+        if (callback) callback();
+    });
 }
 
 function openURLs(urls) {
@@ -166,15 +174,13 @@ function makeClickHandler(listId) {
 
 function updateListView(listId, callback) {
     var list = document.getElementById(listId);
-    var currentHeight = list.offsetHeight;
-    list.style.minHeight = currentHeight + 'px';
-
+    var scrollTop = list.scrollTop;
     var btnOpen = document.getElementById('open');
     var btnRemove = document.getElementById('remove');
     var textHint = document.getElementById('hint-open');
-    list.innerHTML = '';
     
     getKeysBeginWithPatternFromStorage(APP_NAME, function(keys) {
+        list.innerHTML = '';
         if (keys.length == 0) {
             btnOpen.style.visibility = 'hidden';
             btnRemove.style.visibility = 'hidden';
@@ -188,10 +194,8 @@ function updateListView(listId, callback) {
             btnRemove.disabled = true;
         }
         
-        setTimeout(() => {
-            list.style.minHeight = '';
-        }, 300);
-
+        list.scrollTop = scrollTop;
+        
         if (callback) callback();
     });
 }
