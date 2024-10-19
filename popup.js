@@ -85,7 +85,7 @@ function getCurrentTimestampAsFilename() {
 function generateKeyName(numberOfTabs) {
     var name = document.getElementById('input-name').value;
     var time = getCurrentTimestampAsFilename();
-    numberOfTabs = '(' + numberOfTabs + ' tabs' + ')';
+    numberOfTabs = numberOfTabs + ' tabs';
     if (name) {
         return APP_NAME + ' ' + time + ' ' + name + ' ' + numberOfTabs;
     } else {
@@ -95,7 +95,7 @@ function generateKeyName(numberOfTabs) {
 
 function getRealKey(displayKey) {
     var regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
-    var regexTabs = /\(\d+\stabs\)/;
+    var regexTabs = /\d+\stabs/;
     var time = displayKey.match(regexTime)[0];
     var tabs = displayKey.match(regexTabs)[0];
     var name = displayKey.replace(time, '').replace(tabs, '').trim();
@@ -109,7 +109,7 @@ function getRealKey(displayKey) {
 function appendKeyTextChild(parent, key) {
     var regexAppName = new RegExp(APP_NAME + ' ');
     var regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\s/;
-    var regexTabs = /\(\d+\stabs\)/;
+    var regexTabs = /\d+\stabs/;
     
     var time = key.match(regexTime)[0];
     var tabs = key.match(regexTabs)[0];
@@ -180,6 +180,20 @@ function updateListView(listId, callback) {
     var textHint = document.getElementById('hint-open');
     
     getKeysBeginWithPatternFromStorage(APP_NAME, function(keys) {
+        // Migrate keys
+        var migratedKeys = migrateKeys(keys);
+        
+        // If any keys were migrated, update them in storage
+        if (migratedKeys.some((key, index) => key !== keys[index])) {
+            updateKeysInStorage(keys, migratedKeys, function() {
+                populateList(migratedKeys);
+            });
+        } else {
+            populateList(migratedKeys);
+        }
+    });
+
+    function populateList(keys) {
         list.innerHTML = '';
         if (keys.length == 0) {
             btnOpen.style.visibility = 'hidden';
@@ -197,7 +211,7 @@ function updateListView(listId, callback) {
         list.scrollTop = scrollTop;
         
         if (callback) callback();
-    });
+    }
 }
 
 function focusOnNameField() {
@@ -293,6 +307,29 @@ function notifyItemAdded(newKey) {
       });
     }
   });
+}
+
+function migrateKeys(keys) {
+    return keys.map(key => {
+        if (key.endsWith(')')) {
+            return key.replace(/ \((\d+ tabs)\)$/, ' $1');
+        }
+        return key;
+    });
+}
+
+function updateKeysInStorage(oldKeys, newKeys, callback) {
+    var updates = {};
+    oldKeys.forEach((oldKey, index) => {
+        if (oldKey !== newKeys[index]) {
+            STORAGE.get(oldKey, function(result) {
+                updates[newKeys[index]] = result[oldKey];
+                STORAGE.remove(oldKey, function() {
+                    STORAGE.set(updates, callback);
+                });
+            });
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
