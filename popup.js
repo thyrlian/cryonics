@@ -1,5 +1,51 @@
 var STORAGE = chrome.storage.sync;
-var APP_NAME = 'cryonics';
+
+const KeyManager = {
+    APP_NAME: 'cryonics',
+
+    generateKeyName: function(numberOfTabs) {
+        const name = document.getElementById('input-name').value;
+        const time = this.getCurrentTimestampAsFilename();
+        const tabsString = `${numberOfTabs} tabs`;
+        return name 
+            ? `${this.APP_NAME} ${time} ${name} ${tabsString}`
+            : `${this.APP_NAME} ${time} ${tabsString}`;
+    },
+
+    getCurrentTimestampAsFilename: function() {
+        const normalizeTimeToTwoDigits = time => time < 10 ? `0${time}` : time.toString();
+        const now = new Date();
+        return `${now.getFullYear()}-${normalizeTimeToTwoDigits(now.getMonth() + 1)}-${normalizeTimeToTwoDigits(now.getDate())}T${normalizeTimeToTwoDigits(now.getHours())}:${normalizeTimeToTwoDigits(now.getMinutes())}:${normalizeTimeToTwoDigits(now.getSeconds())}`;
+    },
+
+    parseKey: function(key) {
+        const regexAppName = new RegExp(this.APP_NAME + ' ');
+        const regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\s/;
+        const regexTabs = /\d+\stabs/;
+        
+        const time = key.match(regexTime)[0];
+        const tabs = key.match(regexTabs)[0];
+        const name = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '').trim();
+        
+        return { time, tabs, name };
+    },
+
+    formatDate: function(dateString) {
+        const isoDateString = dateString.replace('T', ' ');
+        const date = new Date(isoDateString);
+        
+        if (isNaN(date.getTime())) {
+            return 'Invalid Date';
+        }
+        
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    },
+
+    migrateKey: function(key) {
+        return key.endsWith(')') ? key.replace(/ \((\d+ tabs)\)$/, ' $1') : key;
+    }
+};
 
 function getURLs(callback) {
     chrome.tabs.query({currentWindow: true}, function(tabs) {
@@ -87,95 +133,36 @@ function openURLs(urls) {
     });
 }
 
-function getCurrentTimestampAsFilename() {
-    var normalizeTimeToTwoDigits = function(time) {
-        return time < 10 ? '0' + time : time.toString();
-    };
-    var timestamp = new Date();
-    var filename = timestamp.getFullYear() + '-' +
-                   normalizeTimeToTwoDigits(timestamp.getMonth() + 1) + '-' +
-                   normalizeTimeToTwoDigits(timestamp.getDate()) + 'T' +
-                   normalizeTimeToTwoDigits(timestamp.getHours()) + ':' +
-                   normalizeTimeToTwoDigits(timestamp.getMinutes()) + ':' +
-                   normalizeTimeToTwoDigits(timestamp.getSeconds());
-    return filename;
-}
-
-function generateKeyName(numberOfTabs) {
-    var name = document.getElementById('input-name').value;
-    var time = getCurrentTimestampAsFilename();
-    numberOfTabs = numberOfTabs + ' tabs';
-    if (name) {
-        return APP_NAME + ' ' + time + ' ' + name + ' ' + numberOfTabs;
-    } else {
-        return APP_NAME + ' ' + time + ' ' + numberOfTabs;
-    }
-}
-
-function getRealKey(displayKey) {
-    var regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
-    var regexTabs = /\d+\stabs/;
-    var time = displayKey.match(regexTime)[0];
-    var tabs = displayKey.match(regexTabs)[0];
-    var name = displayKey.replace(time, '').replace(tabs, '').trim();
-    if (name.length > 0) {
-        return APP_NAME + ' ' + time + ' ' + name + ' ' + tabs;
-    } else {
-        return APP_NAME + ' ' + time + ' ' + tabs;
-    }
-}
-
 function appendKeyTextChild(parent, key) {
-    var regexAppName = new RegExp(APP_NAME + ' ');
-    var regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\s/;
-    var regexTabs = /\d+\stabs/;
-    
-    var time = key.match(regexTime)[0];
-    var tabs = key.match(regexTabs)[0];
-    var name = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '').trim();
+    const { time, tabs, name } = KeyManager.parseKey(key);
     
     // Create hidden element to store the full key
-    var hiddenKey = document.createElement('span');
+    const hiddenKey = document.createElement('span');
     hiddenKey.setAttribute('class', 'hidden-key');
     hiddenKey.textContent = key;
     hiddenKey.style.display = 'none';
     parent.appendChild(hiddenKey);
 
-    var spanName = document.createElement('span');
+    const spanName = document.createElement('span');
     spanName.setAttribute('class', 'key-name');
     spanName.textContent = name;
 
-    var spanTabs = document.createElement('span');
+    const spanTabs = document.createElement('span');
     spanTabs.setAttribute('class', 'key-tabs');
     spanTabs.textContent = tabs;
 
-    var spanTime = document.createElement('span');
+    const spanTime = document.createElement('span');
     spanTime.setAttribute('class', 'key-time');
-    var formattedDate = formatDate(time);
+    const formattedDate = KeyManager.formatDate(time);
     spanTime.textContent = formattedDate;
 
-    var divInfo = document.createElement('div');
+    const divInfo = document.createElement('div');
     divInfo.setAttribute('class', 'key-info');
     divInfo.appendChild(spanTime);
     divInfo.appendChild(spanTabs);
 
     parent.appendChild(spanName);
     parent.appendChild(divInfo);
-}
-
-// New function to format the date
-function formatDate(dateString) {
-    // Remove the 'T' and replace it with a space to make it ISO 8601 compatible
-    const isoDateString = dateString.replace('T', ' ');
-    const date = new Date(isoDateString);
-    
-    // Check if the date is valid
-    if (isNaN(date.getTime())) {
-        return 'Invalid Date';
-    }
-    
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
 }
 
 function addListItemsAsCheckboxes(items, listId) {
@@ -221,7 +208,7 @@ function updateListView(listId, callback) {
     var btnRemove = document.getElementById('remove');
     var textHint = document.getElementById('hint-open');
     
-    getKeysBeginWithPatternFromStorage(APP_NAME, function(keys) {
+    getKeysBeginWithPatternFromStorage(KeyManager.APP_NAME, function(keys) {
         // Migrate keys
         var migratedKeys = migrateKeys(keys);
         
@@ -353,15 +340,6 @@ function notifyItemAdded(newKey) {
   });
 }
 
-function migrateKeys(keys) {
-    return keys.map(key => {
-        if (key.endsWith(')')) {
-            return key.replace(/ \((\d+ tabs)\)$/, ' $1');
-        }
-        return key;
-    });
-}
-
 function updateKeysInStorage(oldKeys, newKeys, callback) {
     var updates = {};
     oldKeys.forEach((oldKey, index) => {
@@ -442,6 +420,10 @@ function setupScrollingNames() {
     });
 }
 
+function migrateKeys(keys) {
+    return keys.map(key => KeyManager.migrateKey(key));
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     var btnSave = document.getElementById('save');
     var btnOpen = document.getElementById('open');
@@ -458,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     btnSave.addEventListener('click', function() {
         getURLs(function(urls) {
-            const newKey = generateKeyName(urls.length);
+            const newKey = KeyManager.generateKeyName(urls.length);
             saveURLs(newKey, urls, function() {
                 notifyItemAdded(newKey);
                 resetNameFieldAndFocusOnIt();
