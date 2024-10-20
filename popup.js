@@ -72,13 +72,15 @@ function openURLs(urls) {
 
 function getCurrentTimestampAsFilename() {
     var normalizeTimeToTwoDigits = function(time) {
-        if (time < 10) {
-            time = '0' + time.toString();
-        }
-        return time;
+        return time < 10 ? '0' + time : time.toString();
     };
     var timestamp = new Date();
-    var filename = timestamp.getFullYear() + '-' + normalizeTimeToTwoDigits((timestamp.getMonth() + 1)) + '-' + normalizeTimeToTwoDigits(timestamp.getDate()) + 'T' + normalizeTimeToTwoDigits(timestamp.getHours()) + ':' + normalizeTimeToTwoDigits(timestamp.getMinutes()) + ':' + normalizeTimeToTwoDigits(timestamp.getSeconds());
+    var filename = timestamp.getFullYear() + '-' +
+                   normalizeTimeToTwoDigits(timestamp.getMonth() + 1) + '-' +
+                   normalizeTimeToTwoDigits(timestamp.getDate()) + 'T' +
+                   normalizeTimeToTwoDigits(timestamp.getHours()) + ':' +
+                   normalizeTimeToTwoDigits(timestamp.getMinutes()) + ':' +
+                   normalizeTimeToTwoDigits(timestamp.getSeconds());
     return filename;
 }
 
@@ -115,6 +117,13 @@ function appendKeyTextChild(parent, key) {
     var tabs = key.match(regexTabs)[0];
     var name = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '').trim();
     
+    // Create hidden element to store the full key
+    var hiddenKey = document.createElement('span');
+    hiddenKey.setAttribute('class', 'hidden-key');
+    hiddenKey.textContent = key;
+    hiddenKey.style.display = 'none';
+    parent.appendChild(hiddenKey);
+
     var spanName = document.createElement('span');
     spanName.setAttribute('class', 'key-name');
     spanName.textContent = name;
@@ -125,7 +134,8 @@ function appendKeyTextChild(parent, key) {
 
     var spanTime = document.createElement('span');
     spanTime.setAttribute('class', 'key-time');
-    spanTime.textContent = time;
+    var formattedDate = formatDate(time);
+    spanTime.textContent = formattedDate;
 
     var divInfo = document.createElement('div');
     divInfo.setAttribute('class', 'key-info');
@@ -134,6 +144,21 @@ function appendKeyTextChild(parent, key) {
 
     parent.appendChild(spanName);
     parent.appendChild(divInfo);
+}
+
+// New function to format the date
+function formatDate(dateString) {
+    // Remove the 'T' and replace it with a space to make it ISO 8601 compatible
+    const isoDateString = dateString.replace('T', ' ');
+    const date = new Date(isoDateString);
+    
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+        return 'Invalid Date';
+    }
+    
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
 }
 
 function addListItemsAsCheckboxes(items, listId) {
@@ -229,11 +254,11 @@ function resetNameFieldAndFocusOnIt() {
 
 function getCheckedKeysAndHandleThem(listId, callback) {
     var list = document.getElementById(listId);
-    var items = list.querySelectorAll('input[type="checkbox"]:checked');
+    var checkboxes = list.querySelectorAll('input[type="checkbox"]:checked');
     var keys = [];
-    for (var i = 0; i < items.length; i++) {
-        var key = getRealKey(items[i].parentNode.textContent);
-        keys.push(key);
+    for (var i = 0; i < checkboxes.length; i++) {
+        var hiddenKey = checkboxes[i].closest('label').querySelector('.hidden-key');
+        keys.push(hiddenKey.textContent);
     }
     callback(keys);
 }
