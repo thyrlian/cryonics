@@ -113,19 +113,19 @@ function appendKeyTextChild(parent, key) {
     
     var time = key.match(regexTime)[0];
     var tabs = key.match(regexTabs)[0];
-    var name = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '');
+    var name = key.replace(regexAppName, '').replace(regexTime, '').replace(regexTabs, '').trim();
     
     var spanName = document.createElement('span');
     spanName.setAttribute('class', 'key-name');
-    spanName.innerHTML = name;
+    spanName.textContent = name;
 
     var spanTabs = document.createElement('span');
     spanTabs.setAttribute('class', 'key-tabs');
-    spanTabs.innerHTML = tabs;
+    spanTabs.textContent = tabs;
 
     var spanTime = document.createElement('span');
     spanTime.setAttribute('class', 'key-time');
-    spanTime.innerHTML = time;
+    spanTime.textContent = time;
 
     var divInfo = document.createElement('div');
     divInfo.setAttribute('class', 'key-info');
@@ -209,6 +209,8 @@ function updateListView(listId, callback) {
         }
         
         list.scrollTop = scrollTop;
+        
+        setupScrollingNames();
         
         if (callback) callback();
     }
@@ -327,6 +329,72 @@ function updateKeysInStorage(oldKeys, newKeys, callback) {
                 STORAGE.remove(oldKey, function() {
                     STORAGE.set(updates, callback);
                 });
+            });
+        }
+    });
+}
+
+function setupScrollingNames() {
+    const nameElements = document.querySelectorAll('#list .key-name');
+    nameElements.forEach(nameElement => {
+        if (nameElement.scrollWidth > nameElement.offsetWidth) {
+            const parentLabel = nameElement.closest('label');
+            const parentHeight = parentLabel.offsetHeight;
+
+            let isHovering = false;
+            let hoverTimeout;
+
+            const scroll = async () => {
+                if (!isHovering) return;
+
+                nameElement.classList.add('scrolling');
+                const maxScroll = nameElement.scrollWidth - nameElement.offsetWidth;
+                
+                // Scroll from right to left
+                for (let i = 0; i <= maxScroll; i += 2) {
+                    if (!isHovering) break;
+                    nameElement.scrollLeft = i;
+                    await new Promise(resolve => setTimeout(resolve, 20)); // Adjust speed here
+                }
+
+                // Wait at the end
+                if (isHovering) await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Reset to start
+                if (isHovering) nameElement.scrollLeft = 0;
+
+                // Wait at the start
+                if (isHovering) await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Repeat if still hovering
+                if (isHovering) requestAnimationFrame(scroll);
+            };
+
+            // Create a hover area that covers the entire row
+            const hoverArea = document.createElement('div');
+            hoverArea.style.position = 'absolute';
+            hoverArea.style.top = '0';
+            hoverArea.style.left = '0';
+            hoverArea.style.width = '100%';
+            hoverArea.style.height = `${parentHeight}px`;
+            hoverArea.style.zIndex = '1';
+            parentLabel.style.position = 'relative';
+            parentLabel.appendChild(hoverArea);
+
+            hoverArea.addEventListener('mouseenter', () => {
+                isHovering = true;
+                // Set a timeout to start scrolling after 0.5 seconds
+                hoverTimeout = setTimeout(() => {
+                    scroll();
+                }, 500);
+            });
+
+            hoverArea.addEventListener('mouseleave', () => {
+                isHovering = false;
+                // Clear the timeout if the mouse leaves before 0.5 seconds
+                clearTimeout(hoverTimeout);
+                nameElement.scrollLeft = 0;
+                nameElement.classList.remove('scrolling');
             });
         }
     });
