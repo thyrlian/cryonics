@@ -260,26 +260,26 @@ body {
 }
 
 #list .box { 
-  stroke-dasharray: 56.1053, 56.1053; 
+  stroke-dasharray: 56.1053, 56.1053;
   stroke-dashoffset: 0;
-  transition-delay: 0.16s; 
+  transition-delay: 0.16s;
 }
 
 #list .check {
   stroke: #27FDC7;
-  stroke-dasharray: 9.8995, 9.8995; 
+  stroke-dasharray: 9.8995, 9.8995;
   stroke-dashoffset: 9.8995;
-  transition-duration: 0.32s; 
+  transition-duration: 0.32s;
 }
 
 #list .line {
-  stroke-dasharray: 168, 1684; 
+  stroke-dasharray: 168, 1684;
   stroke-dashoffset: 168;
 }
 
 #list .circle { 
-  animation-delay: 0.56s; 
-  animation-duration: 0.56s; 
+  animation-delay: 0.56s;
+  animation-duration: 0.56s;
 }
 
 #list input[type="checkbox"]:checked ~ .key-name,
@@ -291,21 +291,21 @@ body {
 }
 
 #list input[type="checkbox"]:checked ~ svg .box { 
-  stroke-dashoffset: 56.1053; 
-  transition-delay: 0s; 
+  stroke-dashoffset: 56.1053;
+  transition-delay: 0s;
 }
 
 #list input[type="checkbox"]:checked ~ svg .line { 
-  stroke-dashoffset: -8; 
+  stroke-dashoffset: -8;
 }
 
 #list input[type="checkbox"]:checked ~ svg .check { 
-  stroke-dashoffset: 0; 
-  transition-delay: 0.48s; 
+  stroke-dashoffset: 0;
+  transition-delay: 0.48s;
 }
 
 #list input[type="checkbox"]:checked ~ svg .circle { 
-  animation-name: explode; 
+  animation-name: explode;
 }
 
 label {
