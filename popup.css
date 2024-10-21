@@ -282,11 +282,12 @@ body {
   animation-duration: 0.56s; 
 }
 
-#list input[type="checkbox"]:checked ~ .key-tabs,
-#list input[type="checkbox"]:checked ~ .key-name {
-  transition-delay: 0s; 
-  color: #5EBEC1; 
-  opacity: 0.6; 
+#list input[type="checkbox"]:checked ~ .key-name,
+#list input[type="checkbox"]:checked ~ .key-info .key-tabs,
+#list input[type="checkbox"]:checked ~ .key-info .key-time {
+  transition-delay: 0s;
+  color: #5EBEC1;
+  opacity: 0.6;
 }
 
 #list input[type="checkbox"]:checked ~ svg .box { 
