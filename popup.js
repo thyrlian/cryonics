@@ -127,29 +127,25 @@ function removeURLs(keys, callback) {
 }
 
 function openURLs(urls) {
-    chrome.tabs.query({currentWindow: true}, function(tabs) {
-        let newTabIds = [];
-        
-        for (let tab of tabs) {
-            if (tab.url === 'chrome://newtab/') {
-                newTabIds.push(tab.id);
-            }
-        }
+    let openedCount = 0;
+    const totalUrls = urls.length;
 
-        let openedCount = 0;
-        for (let i = 0; i < urls.length; i++) {
-            chrome.tabs.create({'url': urls[i], 'active': false}, function(tab) {
+    const openNextUrl = () => {
+        if (openedCount < totalUrls) {
+            chrome.tabs.create({'url': urls[openedCount], 'active': false}, () => {
                 openedCount++;
-                if (openedCount === urls.length && newTabIds.length > 0) {
-                    chrome.tabs.remove(newTabIds);
-                }
+                openNextUrl();
             });
+        } else {
+            closeNewTabs();
         }
+    };
 
-        if (urls.length === 0 && newTabIds.length > 0) {
-            chrome.tabs.remove(newTabIds);
-        }
-    });
+    if (totalUrls > 0) {
+        openNextUrl();
+    } else {
+        closeNewTabs();
+    }
 }
 
 function appendKeyTextChild(parent, key) {
@@ -429,6 +425,20 @@ function setupScrollingNames() {
 
 function migrateKeys(keys) {
     return keys.map(key => KeyManager.migrateKey(key));
+}
+
+function closeNewTabs(callback) {
+    chrome.tabs.query({currentWindow: true}, function(tabs) {
+        let newTabIds = tabs
+            .filter(tab => tab.url === 'chrome://newtab/')
+            .map(tab => tab.id);
+
+        if (newTabIds.length > 0) {
+            chrome.tabs.remove(newTabIds, callback);
+        } else if (callback) {
+            callback();
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
