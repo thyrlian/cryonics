@@ -44,6 +44,22 @@ const KeyManager = {
 
     migrateKey: function(key) {
         return key.endsWith(')') ? key.replace(/ \((\d+ tabs)\)$/, ' $1') : key;
+    },
+
+    setKeyAttribute: function(element, key) {
+        element.setAttribute('data-key', key);
+    },
+
+    getKeyAttribute: function(element) {
+        return element.getAttribute('data-key');
+    },
+
+    getFullKey: function(element) {
+        return this.getKeyAttribute(element.closest('label'));
+    },
+
+    generateKeySelector: function(key) {
+        return `label[data-key="${key}"]`;
     }
 };
 
@@ -135,13 +151,6 @@ function openURLs(urls) {
 
 function appendKeyTextChild(parent, key) {
     const { time, tabs, name } = KeyManager.parseKey(key);
-    
-    // Create hidden element to store the full key
-    const hiddenKey = document.createElement('span');
-    hiddenKey.setAttribute('class', 'hidden-key');
-    hiddenKey.textContent = key;
-    hiddenKey.style.display = 'none';
-    parent.appendChild(hiddenKey);
 
     const spanName = document.createElement('span');
     spanName.setAttribute('class', 'key-name');
@@ -168,7 +177,7 @@ function appendKeyTextChild(parent, key) {
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
         var listItem = document.createElement('label');
-        listItem.setAttribute('data-key', items[i]);
+        KeyManager.setKeyAttribute(listItem, items[i]);
         var checkbox = document.createElement('input');
         var linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
@@ -259,11 +268,7 @@ function resetNameFieldAndFocusOnIt() {
 function getCheckedKeysAndHandleThem(listId, callback) {
     var list = document.getElementById(listId);
     var checkboxes = list.querySelectorAll('input[type="checkbox"]:checked');
-    var keys = [];
-    for (var i = 0; i < checkboxes.length; i++) {
-        var hiddenKey = checkboxes[i].closest('label').querySelector('.hidden-key');
-        keys.push(hiddenKey.textContent);
-    }
+    var keys = Array.from(checkboxes).map(checkbox => KeyManager.getFullKey(checkbox));
     callback(keys);
 }
 
@@ -309,8 +314,7 @@ function notifyItemAdded(newKey) {
   const isScrolledToBottom = list.scrollHeight - list.scrollTop === list.clientHeight;
 
   updateListView('list', function() {
-    // After the list is updated, find the new item
-    const newItem = document.querySelector(`label[data-key="${newKey}"]`);
+    const newItem = document.querySelector(KeyManager.generateKeySelector(newKey));
     if (newItem) {
       if (isScrolledToBottom) {
         // If we were at the bottom, scroll to the new item
