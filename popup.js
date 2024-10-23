@@ -128,12 +128,11 @@ function removeURLs(keys, callback) {
 
 function openURLs(urls) {
     chrome.tabs.query({currentWindow: true}, function(tabs) {
-        let newTabId = null;
+        let newTabIds = [];
         
         for (let tab of tabs) {
             if (tab.url === 'chrome://newtab/') {
-                newTabId = tab.id;
-                break;
+                newTabIds.push(tab.id);
             }
         }
 
@@ -141,10 +140,14 @@ function openURLs(urls) {
         for (let i = 0; i < urls.length; i++) {
             chrome.tabs.create({'url': urls[i], 'active': false}, function(tab) {
                 openedCount++;
-                if (openedCount === urls.length && newTabId) {
-                    chrome.tabs.remove(newTabId);
+                if (openedCount === urls.length && newTabIds.length > 0) {
+                    chrome.tabs.remove(newTabIds);
                 }
             });
+        }
+
+        if (urls.length === 0 && newTabIds.length > 0) {
+            chrome.tabs.remove(newTabIds);
         }
     });
 }
