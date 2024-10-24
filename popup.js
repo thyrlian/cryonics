@@ -451,6 +451,9 @@ document.addEventListener('DOMContentLoaded', function() {
     updateListView(listId);
     focusOnNameField();
     
+    btnOpen.disabled = true;
+    btnRemove.disabled = true;
+    
     txtName.addEventListener('keypress', function(event) {
         clickButtonOnEnterKeyPressed(btnSave, event);
     });
