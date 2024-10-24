@@ -24,12 +24,6 @@ label {
   flex-direction: column;
 }
 
-.top-bar, .bottom-bar {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-}
-
 /* Form Elements */
 #input-name {
   flex-grow: 1;
@@ -318,9 +312,10 @@ label {
   animation-name: explode;
 }
 
-#list label, 
-#list label * {
-    user-select: none;
+/* Prevent Text Selection */
+.key-name, .key-tabs, .key-time,
+#list label, #list label * {
+  user-select: none;
 }
 
 .notification {
@@ -375,15 +370,6 @@ label {
 .key-name {
   color: #6A0CE8;
   font-weight: bold;
-}
-
-.key-name, .key-tabs, .key-time {
-  user-select: none;
-}
-
-#list label, 
-#list label * {
-    user-select: none;
 }
 
 /* Animation and Miscellaneous Styles */
