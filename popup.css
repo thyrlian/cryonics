@@ -31,10 +31,9 @@ body {
 #input-name {
   flex-grow: 1;
   margin-right: 10px;
-  padding: 5px;
+  padding: 8px 12px;
   border: 1px solid #d1d5db;
   border-radius: 4px;
-  padding: 8px 12px;
   font-size: 14px;
   outline: none;
   transition: border-color 0.3s ease;
@@ -49,10 +48,23 @@ body {
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
 }
 
+#save, #open, #remove {
+  color: #FFFFFF;
+}
+
 #save {
   background-color: #6f42c1;
   border-color: #6f42c1;
-  color: #FFFFFF;
+}
+
+#open {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+#remove {
+  background-color: #dc3545;
+  border-color: #dc3545;
 }
 
 #hint-save {
@@ -79,18 +91,6 @@ body {
 
 #open, #remove {
   width: 30%;
-}
-
-#open {
-  background-color: #28a745;
-  border-color: #28a745;
-  color: #FFFFFF;
-}
-
-#remove {
-  background-color: #dc3545;
-  border-color: #dc3545;
-  color: #FFFFFF;
 }
 
 #hint-open {
@@ -127,7 +127,7 @@ body {
 #list label {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   padding: 0.6em 0.8em;
   border-bottom: 1px solid #e9ecef;
   transition: all 0.2s ease;
@@ -155,11 +155,12 @@ body {
   height: 1.2em;
   border: 1px solid #bbb;
   border-radius: 0.15em;
-  transform: translateY(-0.075em);
   display: grid;
   place-content: center;
   cursor: pointer;
   margin-right: 0.5em;
+  transition: border-color 0.15s ease-in-out;
+  flex-shrink: 0;
 }
 
 #list input[type="checkbox"]::before {
@@ -198,15 +199,9 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 200px;
-  display: inline-block;
   margin-right: 0.5em;
   background-color: transparent;
   position: relative;
-}
-
-#list .key-name-inner {
-  display: inline;
 }
 
 #list .key-info {
@@ -214,7 +209,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  flex-shrink: 0;
   background-color: transparent;
 }
 
@@ -329,12 +323,9 @@ label {
   display: block;
 }
 
-label:hover {
-  color: #005580;
-  background-color: #eeeeee;
-}
-
-label:hover .key-tabs, label:hover .key-name {
+label:hover,
+label:hover .key-tabs,
+label:hover .key-name {
   color: #005580;
   background-color: #eeeeee;
 }
@@ -391,7 +382,7 @@ label:hover .key-tabs, label:hover .key-name {
 #list .key-name.scrolling {
   text-overflow: clip;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
