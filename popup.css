@@ -1,3 +1,4 @@
+/* General Styles */
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -9,25 +10,27 @@ body {
   width: 350px;
 }
 
+label {
+  display: block;
+}
+
+/* Layout Containers */
 .top-bar, .bottom-bar {
   background-color: #f8f9fa;
   padding: 10px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   z-index: 10;
+  display: flex;
+  flex-direction: column;
 }
 
-.top-bar {
+.top-bar, .bottom-bar {
   display: flex;
   flex-direction: column;
   padding: 10px;
 }
 
-.bottom-bar {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-}
-
+/* Form Elements */
 #input-name {
   flex-grow: 1;
   margin-right: 10px;
@@ -46,6 +49,23 @@ body {
 #input-name:focus {
   border-color: #60a5fa;
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+/* Button Styles */
+.btn {
+  padding: 6px 12px;
+  margin-top: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.btn:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 #save, #open, #remove {
@@ -71,22 +91,6 @@ body {
   margin: 10px 0;
   font-size: 12px;
   color: #6c757d;
-}
-
-.btn {
-  padding: 6px 12px;
-  margin-top: 10px;
-  font-size: 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-}
-
-.btn:disabled {
-  background-color: #cccccc;
-  border-color: #cccccc;
-  cursor: not-allowed;
-  opacity: 0.6;
 }
 
 #buttons {
@@ -121,6 +125,7 @@ body {
   border-color: #bd2130;
 }
 
+/* List and Checkbox Styles */
 #list {
   flex-grow: 1;
   overflow-y: auto;
@@ -264,19 +269,6 @@ body {
   animation: none 0.8s linear;
 }
 
-@keyframes explode {
-  30% { 
-    stroke-width: 3;
-    stroke-opacity: 1;
-    transform: scale(0.8) rotate(40deg);
-  }
-  100% { 
-    stroke-width: 0;
-    stroke-opacity: 0;
-    transform: scale(1.1) rotate(60deg);
-  }
-}
-
 #list .box { 
   stroke-dasharray: 56.1053, 56.1053;
   stroke-dashoffset: 0;
@@ -324,30 +316,6 @@ body {
 
 #list input[type="checkbox"]:checked ~ svg .circle { 
   animation-name: explode;
-}
-
-label {
-  display: block;
-}
-
-label:hover,
-label:hover .key-tabs,
-label:hover .key-name {
-  color: #005580;
-  background-color: #eeeeee;
-}
-
-.key-tabs {
-  color: #E88E0C;
-}
-
-.key-name {
-  color: #6A0CE8;
-  font-weight: bold;
-}
-
-.key-name, .key-tabs, .key-time {
-  user-select: none;
 }
 
 #list label, 
@@ -398,4 +366,36 @@ label:hover .key-name {
 #list .key-name.scrolling::-webkit-scrollbar { /* WebKit */
   width: 0;
   height: 0;
+}
+
+.key-tabs {
+  color: #E88E0C;
+}
+
+.key-name {
+  color: #6A0CE8;
+  font-weight: bold;
+}
+
+.key-name, .key-tabs, .key-time {
+  user-select: none;
+}
+
+#list label, 
+#list label * {
+    user-select: none;
+}
+
+/* Animation and Miscellaneous Styles */
+@keyframes explode {
+  30% { 
+    stroke-width: 3;
+    stroke-opacity: 1;
+    transform: scale(0.8) rotate(40deg);
+  }
+  100% { 
+    stroke-width: 0;
+    stroke-opacity: 0;
+    transform: scale(1.1) rotate(60deg);
+  }
 }
