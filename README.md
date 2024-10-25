@@ -4,7 +4,7 @@ A Chrome extension which helps user save all opened tabs and resuscitate them al
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Download-brightgreen.svg)](https://chrome.google.com/webstore/detail/cryonics/hkombacagedhkddahffppknpaiocgeap)
 
-<img src="https://github.com/thyrlian/cryonics/blob/master/Cryonics.jpg">
+<img src="https://github.com/thyrlian/cryonics/blob/master/assets/Cryonics.jpg">
 
 Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-undergoes-cryonic-preservation-after-successful-fundraising-campaign)
 
