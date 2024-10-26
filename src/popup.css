@@ -132,6 +132,7 @@ label {
 }
 
 #empty-message p {
+  font-family: 'Comic Sans MS', 'Verdana', sans-serif;
   color: #6c757d;
   font-size: 18px;
 }
