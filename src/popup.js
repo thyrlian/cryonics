@@ -209,8 +209,10 @@ function makeClickHandler(listId) {
     };
 }
 
-function updateListView(listId, callback) {
+function updateListView(listId) {
     var list = document.getElementById(listId);
+    var emptyMessage = document.getElementById('empty-message');
+    var bottomBar = document.querySelector('.bottom-bar');
     var scrollTop = list.scrollTop;
     var btnOpen = document.getElementById('open');
     var btnRemove = document.getElementById('remove');
@@ -219,7 +221,7 @@ function updateListView(listId, callback) {
     getKeysBeginWithPatternFromStorage(KeyManager.APP_NAME, function(keys) {
         // Migrate keys
         var migratedKeys = migrateKeys(keys);
-        
+
         // If any keys were migrated, update them in storage
         if (migratedKeys.some((key, index) => key !== keys[index])) {
             updateKeysInStorage(keys, migratedKeys, function() {
@@ -236,7 +238,13 @@ function updateListView(listId, callback) {
             btnOpen.style.visibility = 'hidden';
             btnRemove.style.visibility = 'hidden';
             textHint.style.visibility = 'hidden';
+            emptyMessage.style.display = 'block';
+            list.style.display = 'none';
+            bottomBar.style.display = 'none';
         } else {
+            emptyMessage.style.display = 'none';
+            list.style.display = 'block';
+            bottomBar.style.display = 'flex';
             addListItemsAsCheckboxes(keys, listId);
             btnOpen.style.visibility = 'visible';
             btnRemove.style.visibility = 'visible';
@@ -244,12 +252,9 @@ function updateListView(listId, callback) {
             btnOpen.disabled = true;
             btnRemove.disabled = true;
         }
-        
+
         list.scrollTop = scrollTop;
-        
         setupScrollingNames();
-        
-        if (callback) callback();
     }
 }
 
