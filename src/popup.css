@@ -25,6 +25,11 @@ label {
 }
 
 /* Form Elements */
+.input-group {
+  display: inline-flex;
+  align-items: flex-end;
+}
+
 #input-name {
   flex-grow: 1;
   margin-right: 10px;
