@@ -53,7 +53,7 @@ To build and test this Chrome extension locally, please follow below steps:
 
 * Navigate to the inside of the extension directory, create a ZIP file:
 
-  `(cd src && zip -r ../cryonics.zip .)`
+  `(cd src && zip -r ../cryonics.zip . -x ".*")`
 * Go to [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard), click the item (extension) to its details page.
 * Click **"Package"** on the left navigation menu, then click the **"Upload new package"** button shows on the top right.
 * After successfully uploading, click **"Save draft"**.
