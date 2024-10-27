@@ -337,6 +337,7 @@ label {
 }
 
 /* Prevent Text Selection */
+.hint, button,
 .key-name, .key-tabs, .key-time,
 #list label, #list label * {
   user-select: none;
