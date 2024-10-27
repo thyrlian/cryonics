@@ -2,7 +2,9 @@ var STORAGE = chrome.storage.sync;
 
 const KeyManager = {
     APP_NAME: 'cryonics',
+    KEY_ATTRIBUTE: 'data-key',
 
+    // Generates a unique key name for storing tabs information
     generateKeyName: function(numberOfTabs) {
         const name = document.getElementById('input-name').value;
         const time = this.getCurrentTimestampAsFilename();
@@ -12,12 +14,14 @@ const KeyManager = {
             : `${this.APP_NAME} ${time} ${tabsString}`;
     },
 
+    // Returns the current timestamp formatted as a filename
     getCurrentTimestampAsFilename: function() {
         const normalizeTimeToTwoDigits = time => time < 10 ? `0${time}` : time.toString();
         const now = new Date();
         return `${now.getFullYear()}-${normalizeTimeToTwoDigits(now.getMonth() + 1)}-${normalizeTimeToTwoDigits(now.getDate())}T${normalizeTimeToTwoDigits(now.getHours())}:${normalizeTimeToTwoDigits(now.getMinutes())}:${normalizeTimeToTwoDigits(now.getSeconds())}`;
     },
 
+    // Parses a key to extract time, tabs, and name
     parseKey: function(key) {
         const regexAppName = new RegExp(this.APP_NAME + ' ');
         const regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\s/;
@@ -30,6 +34,7 @@ const KeyManager = {
         return { time, tabs, name };
     },
 
+    // Formats a date string into a more readable format
     formatDate: function(dateString) {
         const isoDateString = dateString.replace('T', ' ');
         const date = new Date(isoDateString);
@@ -42,27 +47,33 @@ const KeyManager = {
         return date.toLocaleDateString('en-US', options);
     },
 
+    // Migrates old key format to new format
     migrateKey: function(key) {
         return key.endsWith(')') ? key.replace(/ \((\d+ tabs)\)$/, ' $1') : key;
     },
 
+    // Sets a key attribute on an element
     setKeyAttribute: function(element, key) {
-        element.setAttribute('data-key', key);
+        element.setAttribute(this.KEY_ATTRIBUTE, key);
     },
 
+    // Gets the key attribute from an element
     getKeyAttribute: function(element) {
-        return element.getAttribute('data-key');
+        return element.getAttribute(this.KEY_ATTRIBUTE);
     },
 
+    // Retrieves the full key from an element
     getFullKey: function(element) {
         return this.getKeyAttribute(element.closest('label'));
     },
 
+    // Generates a selector for a key
     generateKeySelector: function(key) {
-        return `label[data-key="${key}"]`;
+        return `label[${this.KEY_ATTRIBUTE}="${key}"]`;
     }
 };
 
+// Retrieves URLs from the current window's tabs
 function getURLs(callback) {
     chrome.tabs.query({currentWindow: true}, function(tabs) {
         var urls = [];
@@ -73,16 +84,49 @@ function getURLs(callback) {
     });
 }
 
+// Saves URLs under a specific key in storage
 function saveURLs(key, urls, callback) {
     var obj = {};
     obj[key] = urls;
     STORAGE.set(obj, callback);
 }
 
+// Retrieves URLs from storage using a key
 function retrieveURLs(key, callback) {
     STORAGE.get(key, function(items) {
         var urls = items[key];
         callback(key, urls);
+    });
+}
+
+// Removes URLs from storage using keys
+function removeURLs(keys, callback) {
+    var list = document.getElementById('list');
+    var scrollTop = list.scrollTop;
+
+    for (var i = 0; i < keys.length; i++) {
+        STORAGE.remove(keys[i]);
+    }
+
+    updateListView('list', function() {
+        list.scrollTop = scrollTop;
+        focusOnNameField();
+        if (callback) callback();
+    });
+}
+
+// Updates keys in storage
+function updateKeysInStorage(oldKeys, newKeys, callback) {
+    var updates = {};
+    oldKeys.forEach((oldKey, index) => {
+        if (oldKey !== newKeys[index]) {
+            STORAGE.get(oldKey, function(result) {
+                updates[newKeys[index]] = result[oldKey];
+                STORAGE.remove(oldKey, function() {
+                    STORAGE.set(updates, callback);
+                });
+            });
+        }
     });
 }
 
@@ -111,21 +155,6 @@ function getKeysBeginWithPatternFromStorage(pattern, callback) {
     });
 }
 
-function removeURLs(keys, callback) {
-    var list = document.getElementById('list');
-    var scrollTop = list.scrollTop;
-
-    for (var i = 0; i < keys.length; i++) {
-        STORAGE.remove(keys[i]);
-    }
-
-    updateListView('list', function() {
-        list.scrollTop = scrollTop;
-        focusOnNameField();
-        if (callback) callback();
-    });
-}
-
 function openURLs(urls) {
     let openedCount = 0;
     const totalUrls = urls.length;
@@ -148,6 +177,7 @@ function openURLs(urls) {
     }
 }
 
+// Appends key text as child elements
 function appendKeyTextChild(parent, key) {
     const { time, tabs, name } = KeyManager.parseKey(key);
 
@@ -173,6 +203,7 @@ function appendKeyTextChild(parent, key) {
     parent.appendChild(divInfo);
 }
 
+// Adds list items as checkboxes
 function addListItemsAsCheckboxes(items, listId) {
     for (var i = 0; i < items.length; i++) {
         var listItem = document.createElement('label');
@@ -181,7 +212,9 @@ function addListItemsAsCheckboxes(items, listId) {
         var linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('value', '');
-        checkbox.addEventListener('click', makeClickHandler(listId));
+        checkbox.addEventListener('click', function() {
+            clickHandler(listId);
+        });
         listItem.appendChild(checkbox);
         appendKeyTextChild(listItem, items[i]);
         listItem.appendChild(linebreak);
@@ -189,6 +222,7 @@ function addListItemsAsCheckboxes(items, listId) {
     }
 }
 
+// Handles click events for checkboxes
 function clickHandler(listId) {
     var list = document.getElementById(listId);
     var counter = list.querySelectorAll('input[type="checkbox"]:checked').length;
@@ -203,12 +237,7 @@ function clickHandler(listId) {
     }
 }
 
-function makeClickHandler(listId) {
-    return function() {
-        clickHandler(listId);
-    };
-}
-
+// Updates the list view
 function updateListView(listId) {
     var list = document.getElementById(listId);
     var emptyMessage = document.getElementById('empty-message');
@@ -258,11 +287,13 @@ function updateListView(listId) {
     }
 }
 
+// Focuses on the name input field
 function focusOnNameField() {
     var nameField = document.getElementById('input-name');
     nameField.focus();
 }
 
+// Resets the name input field and focuses on it
 function resetNameFieldAndFocusOnIt() {
     var nameField = document.getElementById('input-name');
     nameField.value = '';
@@ -348,20 +379,7 @@ function notifyItemAdded(newKey) {
   });
 }
 
-function updateKeysInStorage(oldKeys, newKeys, callback) {
-    var updates = {};
-    oldKeys.forEach((oldKey, index) => {
-        if (oldKey !== newKeys[index]) {
-            STORAGE.get(oldKey, function(result) {
-                updates[newKeys[index]] = result[oldKey];
-                STORAGE.remove(oldKey, function() {
-                    STORAGE.set(updates, callback);
-                });
-            });
-        }
-    });
-}
-
+// Sets up scrolling for long names
 function setupScrollingNames() {
     const nameElements = document.querySelectorAll('#list .key-name');
     nameElements.forEach(nameElement => {
