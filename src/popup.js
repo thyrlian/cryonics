@@ -74,14 +74,9 @@ const KeyManager = {
 };
 
 // Retrieves URLs from the current window's tabs
-function getURLs(callback) {
-    chrome.tabs.query({currentWindow: true}, function(tabs) {
-        var urls = [];
-        for (var i = 0; i < tabs.length; i++) {
-            urls.push(tabs[i].url);
-        }
-        callback(urls);
-    });
+async function getURLs() {
+    const tabs = await chrome.tabs.query({ currentWindow: true });
+    return tabs.map(tab => tab.url);
 }
 
 // Saves URLs under a specific key in storage
@@ -417,13 +412,6 @@ function handleCheckboxClick(listId) {
     }
 }
 
-// Handles enter key press to click a button
-function clickButtonOnEnterKeyPressed(button, event) {
-    if (event.keyCode == 13) {
-        button.click();
-    }
-}
-
 // Notifies the user when an item is added
 function notifyItemAdded(newKey) {
     // Show notification
@@ -469,45 +457,50 @@ function notifyItemAdded(newKey) {
 }
 
 // Sets up event listeners on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
-    var btnSave = document.getElementById('save');
-    var btnOpen = document.getElementById('open');
-    var btnRemove = document.getElementById('remove');
-    var txtName = document.getElementById('input-name');
-    var listId = 'list';
-    
-    updateListView(listId);
-    focusOnNameField();
-    
+function setupEventListeners() {
+    const btnSave = document.getElementById('save');
+    const btnOpen = document.getElementById('open');
+    const btnRemove = document.getElementById('remove');
+    const txtName = document.getElementById('input-name');
+    const listId = 'list';
+
     btnOpen.disabled = true;
     btnRemove.disabled = true;
-    
-    txtName.addEventListener('keypress', function(event) {
-        clickButtonOnEnterKeyPressed(btnSave, event);
+
+    txtName.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            btnSave.click();
+        }
     });
-    
-    btnSave.addEventListener('click', function() {
-        getURLs(function(urls) {
-            const newKey = KeyManager.generateKeyName(urls.length);
-            saveURLs(newKey, urls, function() {
-                notifyItemAdded(newKey);
-                resetNameFieldAndFocusOnIt();
-            });
+
+    btnSave.addEventListener('click', async () => {
+        const urls = await getURLs();
+        const newKey = KeyManager.generateKeyName(urls.length);
+        saveURLs(newKey, urls, () => {
+            notifyItemAdded(newKey);
+            resetNameFieldAndFocusOnIt();
         });
     });
-    
-    btnOpen.addEventListener('click', function() {
-        getCheckedKeysAndHandleThem(listId, function(keys) {
+
+    btnOpen.addEventListener('click', () => {
+        getCheckedKeysAndHandleThem(listId, (keys) => {
             openURLsFromMultipleKeysAndThenRemoveThem(keys);
         });
     });
-    
-    btnRemove.addEventListener('click', function() {
-        getCheckedKeysAndHandleThem(listId, function(keys) {
-            removeURLs(keys, function() {
+
+    btnRemove.addEventListener('click', () => {
+        getCheckedKeysAndHandleThem(listId, (keys) => {
+            removeURLs(keys, () => {
                 updateListView(listId);
                 focusOnNameField();
             });
         });
     });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateListView('list');
+    focusOnNameField();
+    setupEventListeners();
 });
+
