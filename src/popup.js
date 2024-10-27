@@ -1,4 +1,4 @@
-var STORAGE = chrome.storage.sync;
+const STORAGE = chrome.storage.sync;
 
 const KeyManager = {
     APP_NAME: 'cryonics',
@@ -48,29 +48,19 @@ const KeyManager = {
     },
 
     // Migrates old key format to new format
-    migrateKey: function(key) {
-        return key.endsWith(')') ? key.replace(/ \((\d+ tabs)\)$/, ' $1') : key;
-    },
+    migrateKey: (key) => key.endsWith(')') ? key.replace(/ \((\d+ tabs)\)$/, ' $1') : key,
 
     // Sets a key attribute on an element
-    setKeyAttribute: function(element, key) {
-        element.setAttribute(this.KEY_ATTRIBUTE, key);
-    },
+    setKeyAttribute: (element, key) => element.setAttribute(KeyManager.KEY_ATTRIBUTE, key),
 
     // Gets the key attribute from an element
-    getKeyAttribute: function(element) {
-        return element.getAttribute(this.KEY_ATTRIBUTE);
-    },
+    getKeyAttribute: (element) => element.getAttribute(KeyManager.KEY_ATTRIBUTE),
 
     // Retrieves the full key from an element
-    getFullKey: function(element) {
-        return this.getKeyAttribute(element.closest('label'));
-    },
+    getFullKey: (element) => KeyManager.getKeyAttribute(element.closest('label')),
 
     // Generates a selector for a key
-    generateKeySelector: function(key) {
-        return `label[${this.KEY_ATTRIBUTE}="${key}"]`;
-    }
+    generateKeySelector: (key) => `label[${KeyManager.KEY_ATTRIBUTE}="${key}"]`
 };
 
 // Retrieves URLs from the current window's tabs
@@ -81,29 +71,26 @@ async function getURLs() {
 
 // Saves URLs under a specific key in storage
 function saveURLs(key, urls, callback) {
-    var obj = {};
-    obj[key] = urls;
+    const obj = { [key]: urls };
     STORAGE.set(obj, callback);
 }
 
 // Retrieves URLs from storage using a key
 function retrieveURLs(key, callback) {
-    STORAGE.get(key, function(items) {
-        var urls = items[key];
+    STORAGE.get(key, (items) => {
+        const urls = items[key];
         callback(key, urls);
     });
 }
 
 // Removes URLs from storage using keys
 function removeURLs(keys, callback) {
-    var list = document.getElementById('list');
-    var scrollTop = list.scrollTop;
+    const list = document.getElementById('list');
+    const scrollTop = list.scrollTop;
 
-    for (var i = 0; i < keys.length; i++) {
-        STORAGE.remove(keys[i]);
-    }
+    keys.forEach(key => STORAGE.remove(key));
 
-    updateListView('list', function() {
+    updateListView('list', () => {
         list.scrollTop = scrollTop;
         focusOnNameField();
         if (callback) callback();
@@ -112,12 +99,12 @@ function removeURLs(keys, callback) {
 
 // Updates keys in storage
 function updateKeysInStorage(oldKeys, newKeys, callback) {
-    var updates = {};
+    const updates = {};
     oldKeys.forEach((oldKey, index) => {
         if (oldKey !== newKeys[index]) {
-            STORAGE.get(oldKey, function(result) {
+            STORAGE.get(oldKey, (result) => {
                 updates[newKeys[index]] = result[oldKey];
-                STORAGE.remove(oldKey, function() {
+                STORAGE.remove(oldKey, () => {
                     STORAGE.set(updates, callback);
                 });
             });
@@ -126,15 +113,10 @@ function updateKeysInStorage(oldKeys, newKeys, callback) {
 }
 
 function getKeysBeginWithPatternFromStorage(pattern, callback) {
-    STORAGE.get(null, function(items) {
-        var regex = new RegExp(pattern);
-        var allKeys = Object.keys(items);
-        var wantedKeys = [];
-        for (var i = 0; i < allKeys.length; i++) {
-            if (allKeys[i].match(regex)) {
-                wantedKeys.push(allKeys[i]);
-            }
-        }
+    STORAGE.get(null, (items) => {
+        const regex = new RegExp(pattern);
+        const allKeys = Object.keys(items);
+        const wantedKeys = allKeys.filter(key => key.match(regex));
         callback(wantedKeys);
     });
 }
@@ -503,4 +485,3 @@ document.addEventListener('DOMContentLoaded', () => {
     focusOnNameField();
     setupEventListeners();
 });
-
