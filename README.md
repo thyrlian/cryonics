@@ -1,6 +1,6 @@
 # Cryonics
 
-A Chrome extension which helps user save all opened tabs and resuscitate them all at once later.
+A Chrome extension to save and sync all your tabs, ready to resuscitate whenever you need them, across any device.
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Download-brightgreen.svg)](https://chrome.google.com/webstore/detail/cryonics/hkombacagedhkddahffppknpaiocgeap)
 
