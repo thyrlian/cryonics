@@ -213,27 +213,12 @@ function addListItemsAsCheckboxes(items, listId) {
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('value', '');
         checkbox.addEventListener('click', function() {
-            clickHandler(listId);
+            handleCheckboxClick(listId);
         });
         listItem.appendChild(checkbox);
         appendKeyTextChild(listItem, items[i]);
         listItem.appendChild(linebreak);
         document.getElementById(listId).appendChild(listItem);
-    }
-}
-
-// Handles click events for checkboxes
-function clickHandler(listId) {
-    var list = document.getElementById(listId);
-    var counter = list.querySelectorAll('input[type="checkbox"]:checked').length;
-    var btnOpen = document.getElementById('open');
-    var btnRemove = document.getElementById('remove');
-    if (counter > 0) {
-        btnOpen.disabled = false;
-        btnRemove.disabled = false;
-    } else {
-        btnOpen.disabled = true;
-        btnRemove.disabled = true;
     }
 }
 
@@ -307,12 +292,6 @@ function getCheckedKeysAndHandleThem(listId, callback) {
     callback(keys);
 }
 
-function clickButtonOnEnterKeyPressed(button, event) {
-    if (event.keyCode == 13) {
-        button.click();
-    }
-}
-
 function attachDebugInfo(keys) {
     var debugDivision = document.getElementById('debug');
     var list = document.createElement('ol');
@@ -334,49 +313,6 @@ function attachDebugInfo(keys) {
     for (var i = 0; i < keys.length; i++) {
         retrieveURLs(keys[i], attachURLs);
     }
-}
-
-function notifyItemAdded(newKey) {
-  // Show notification
-  const notification = document.getElementById('notification');
-  notification.classList.remove('hidden');
-  setTimeout(() => {
-    notification.classList.add('hidden');
-  }, 2000);
-
-  // Update the list view
-  const list = document.getElementById('list');
-  const isScrolledToBottom = list.scrollHeight - list.scrollTop === list.clientHeight;
-
-  updateListView('list', function() {
-    const newItem = document.querySelector(KeyManager.generateKeySelector(newKey));
-    if (newItem) {
-      if (isScrolledToBottom) {
-        // If we were at the bottom, scroll to the new item
-        newItem.scrollIntoView({ behavior: 'auto', block: 'end' });
-      } else {
-        // Check if the new item is in view
-        const rect = newItem.getBoundingClientRect();
-        const listRect = list.getBoundingClientRect();
-        if (rect.bottom > listRect.bottom || rect.top < listRect.top) {
-          // If not in view, scroll to it
-          newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }
-      
-      // Highlight the new item without changing its size
-      requestAnimationFrame(() => {
-        newItem.style.transition = 'background-color 0.3s ease-in-out';
-        newItem.style.backgroundColor = '#fffacd';
-        setTimeout(() => {
-          newItem.style.backgroundColor = '';
-          setTimeout(() => {
-            newItem.style.transition = '';
-          }, 300);
-        }, 1500);
-      });
-    }
-  });
 }
 
 // Sets up scrolling for long names
@@ -464,6 +400,75 @@ function closeNewTabs(callback) {
     });
 }
 
+// ==================== Event Handling Methods ====================
+
+// Handles click events for checkboxes
+function handleCheckboxClick(listId) {
+    var list = document.getElementById(listId);
+    var counter = list.querySelectorAll('input[type="checkbox"]:checked').length;
+    var btnOpen = document.getElementById('open');
+    var btnRemove = document.getElementById('remove');
+    if (counter > 0) {
+        btnOpen.disabled = false;
+        btnRemove.disabled = false;
+    } else {
+        btnOpen.disabled = true;
+        btnRemove.disabled = true;
+    }
+}
+
+// Handles enter key press to click a button
+function clickButtonOnEnterKeyPressed(button, event) {
+    if (event.keyCode == 13) {
+        button.click();
+    }
+}
+
+// Notifies the user when an item is added
+function notifyItemAdded(newKey) {
+    // Show notification
+    const notification = document.getElementById('notification');
+    notification.classList.remove('hidden');
+    setTimeout(() => {
+        notification.classList.add('hidden');
+    }, 2000);
+
+    // Update the list view
+    const list = document.getElementById('list');
+    const isScrolledToBottom = list.scrollHeight - list.scrollTop === list.clientHeight;
+
+    updateListView('list', function() {
+        const newItem = document.querySelector(KeyManager.generateKeySelector(newKey));
+        if (newItem) {
+            if (isScrolledToBottom) {
+                // If we were at the bottom, scroll to the new item
+                newItem.scrollIntoView({ behavior: 'auto', block: 'end' });
+            } else {
+                // Check if the new item is in view
+                const rect = newItem.getBoundingClientRect();
+                const listRect = list.getBoundingClientRect();
+                if (rect.bottom > listRect.bottom || rect.top < listRect.top) {
+                    // If not in view, scroll to it
+                    newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+            
+            // Highlight the new item without changing its size
+            requestAnimationFrame(() => {
+                newItem.style.transition = 'background-color 0.3s ease-in-out';
+                newItem.style.backgroundColor = '#fffacd';
+                setTimeout(() => {
+                    newItem.style.backgroundColor = '';
+                    setTimeout(() => {
+                        newItem.style.transition = '';
+                    }, 300);
+                }, 1500);
+            });
+        }
+    });
+}
+
+// Sets up event listeners on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
     var btnSave = document.getElementById('save');
     var btnOpen = document.getElementById('open');
