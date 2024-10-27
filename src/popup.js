@@ -144,14 +144,12 @@ function openURLs(urls) {
 }
 
 function openURLsFromMultipleKeysAndThenRemoveThem(keys) {
-    var openAndThenRemove = function(key, urls) {
-        openURLs(urls);
-        removeURLs([key]);
-    };
-    
-    for (var i = 0; i < keys.length; i++) {
-        retrieveURLs(keys[i], openAndThenRemove);
-    }
+    keys.forEach(key => {
+        retrieveURLs(key, (key, urls) => {
+            openURLs(urls);
+            removeURLs([key]);
+        });
+    });
 }
 
 // Appends key text as child elements
@@ -182,42 +180,38 @@ function appendKeyTextChild(parent, key) {
 
 // Adds list items as checkboxes
 function addListItemsAsCheckboxes(items, listId) {
-    for (var i = 0; i < items.length; i++) {
-        var listItem = document.createElement('label');
-        KeyManager.setKeyAttribute(listItem, items[i]);
-        var checkbox = document.createElement('input');
-        var linebreak = document.createElement('br');
+    items.forEach(item => {
+        const listItem = document.createElement('label');
+        KeyManager.setKeyAttribute(listItem, item);
+        const checkbox = document.createElement('input');
+        const linebreak = document.createElement('br');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('value', '');
-        checkbox.addEventListener('click', function() {
-            handleCheckboxClick(listId);
-        });
+        checkbox.addEventListener('click', () => handleCheckboxClick(listId));
         listItem.appendChild(checkbox);
-        appendKeyTextChild(listItem, items[i]);
+        appendKeyTextChild(listItem, item);
         listItem.appendChild(linebreak);
         document.getElementById(listId).appendChild(listItem);
-    }
+    });
 }
 
 // Updates the list view
 function updateListView(listId) {
-    var list = document.getElementById(listId);
-    var emptyMessage = document.getElementById('empty-message');
-    var bottomBar = document.querySelector('.bottom-bar');
-    var scrollTop = list.scrollTop;
-    var btnOpen = document.getElementById('open');
-    var btnRemove = document.getElementById('remove');
-    var textHint = document.getElementById('hint-open');
+    const list = document.getElementById(listId);
+    const emptyMessage = document.getElementById('empty-message');
+    const bottomBar = document.querySelector('.bottom-bar');
+    const scrollTop = list.scrollTop;
+    const btnOpen = document.getElementById('open');
+    const btnRemove = document.getElementById('remove');
+    const textHint = document.getElementById('hint-open');
     
-    getKeysBeginWithPatternFromStorage(KeyManager.APP_NAME, function(keys) {
         // Migrate keys
-        var migratedKeys = migrateKeys(keys);
+    getKeysBeginWithPatternFromStorage(KeyManager.APP_NAME, keys => {
+        const migratedKeys = migrateKeys(keys);
 
         // If any keys were migrated, update them in storage
         if (migratedKeys.some((key, index) => key !== keys[index])) {
-            updateKeysInStorage(keys, migratedKeys, function() {
-                populateList(migratedKeys);
-            });
+            updateKeysInStorage(keys, migratedKeys, () => populateList(migratedKeys));
         } else {
             populateList(migratedKeys);
         }
@@ -225,7 +219,7 @@ function updateListView(listId) {
 
     function populateList(keys) {
         list.innerHTML = '';
-        if (keys.length == 0) {
+        if (keys.length === 0) {
             btnOpen.style.visibility = 'hidden';
             btnRemove.style.visibility = 'hidden';
             textHint.style.visibility = 'hidden';
@@ -251,13 +245,13 @@ function updateListView(listId) {
 
 // Focuses on the name input field
 function focusOnNameField() {
-    var nameField = document.getElementById('input-name');
+    const nameField = document.getElementById('input-name');
     nameField.focus();
 }
 
 // Resets the name input field and focuses on it
 function resetNameFieldAndFocusOnIt() {
-    var nameField = document.getElementById('input-name');
+    const nameField = document.getElementById('input-name');
     nameField.value = '';
     nameField.focus();
 }
@@ -330,33 +324,31 @@ function setupScrollingNames() {
 }
 
 function getCheckedKeysAndHandleThem(listId, callback) {
-    var list = document.getElementById(listId);
-    var checkboxes = list.querySelectorAll('input[type="checkbox"]:checked');
-    var keys = Array.from(checkboxes).map(checkbox => KeyManager.getFullKey(checkbox));
+    const list = document.getElementById(listId);
+    const checkboxes = list.querySelectorAll('input[type="checkbox"]:checked');
+    const keys = Array.from(checkboxes).map(checkbox => KeyManager.getFullKey(checkbox));
     callback(keys);
 }
 
 function attachDebugInfo(keys) {
-    var debugDivision = document.getElementById('debug');
-    var list = document.createElement('ol');
-    var debugSeparator = document.createElement('p');
+    const debugDivision = document.getElementById('debug');
+    const list = document.createElement('ol');
+    const debugSeparator = document.createElement('p');
     debugSeparator.appendChild(document.createTextNode('==================== DEBUG ===================='));
     debugDivision.innerHTML = '';
     debugDivision.appendChild(debugSeparator);
     debugDivision.appendChild(list);
     
-    var attachURLs = function(key, urls) {
-        for (var i = 0; i < urls.length; i++) {
-            var item = document.createElement('li');
-            var text = document.createTextNode(urls[i]);
-            item.appendChild(text);
-            list.appendChild(item);
-        }
-    };
-    
-    for (var i = 0; i < keys.length; i++) {
-        retrieveURLs(keys[i], attachURLs);
-    }
+    keys.forEach(key => {
+        retrieveURLs(key, (key, urls) => {
+            urls.forEach(url => {
+                const item = document.createElement('li');
+                const text = document.createTextNode(url);
+                item.appendChild(text);
+                list.appendChild(item);
+            });
+        });
+    });
 }
 
 function migrateKeys(keys) {
@@ -364,8 +356,8 @@ function migrateKeys(keys) {
 }
 
 function closeNewTabs(callback) {
-    chrome.tabs.query({currentWindow: true}, function(tabs) {
-        let newTabIds = tabs
+    chrome.tabs.query({currentWindow: true}, tabs => {
+        const newTabIds = tabs
             .filter(tab => tab.url === 'chrome://newtab/')
             .map(tab => tab.id);
 
@@ -381,17 +373,12 @@ function closeNewTabs(callback) {
 
 // Handles click events for checkboxes
 function handleCheckboxClick(listId) {
-    var list = document.getElementById(listId);
-    var counter = list.querySelectorAll('input[type="checkbox"]:checked').length;
-    var btnOpen = document.getElementById('open');
-    var btnRemove = document.getElementById('remove');
-    if (counter > 0) {
-        btnOpen.disabled = false;
-        btnRemove.disabled = false;
-    } else {
-        btnOpen.disabled = true;
-        btnRemove.disabled = true;
-    }
+    const list = document.getElementById(listId);
+    const counter = list.querySelectorAll('input[type="checkbox"]:checked').length;
+    const btnOpen = document.getElementById('open');
+    const btnRemove = document.getElementById('remove');
+    btnOpen.disabled = counter === 0;
+    btnRemove.disabled = counter === 0;
 }
 
 // Notifies the user when an item is added
@@ -407,7 +394,7 @@ function notifyItemAdded(newKey) {
     const list = document.getElementById('list');
     const isScrolledToBottom = list.scrollHeight - list.scrollTop === list.clientHeight;
 
-    updateListView('list', function() {
+    updateListView('list', () => {
         const newItem = document.querySelector(KeyManager.generateKeySelector(newKey));
         if (newItem) {
             if (isScrolledToBottom) {
@@ -465,13 +452,13 @@ function setupEventListeners() {
     });
 
     btnOpen.addEventListener('click', () => {
-        getCheckedKeysAndHandleThem(listId, (keys) => {
+        getCheckedKeysAndHandleThem(listId, keys => {
             openURLsFromMultipleKeysAndThenRemoveThem(keys);
         });
     });
 
     btnRemove.addEventListener('click', () => {
-        getCheckedKeysAndHandleThem(listId, (keys) => {
+        getCheckedKeysAndHandleThem(listId, keys => {
             removeURLs(keys, () => {
                 updateListView(listId);
                 focusOnNameField();
