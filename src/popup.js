@@ -130,17 +130,6 @@ function updateKeysInStorage(oldKeys, newKeys, callback) {
     });
 }
 
-function openURLsFromMultipleKeysAndThenRemoveThem(keys) {
-    var openAndThenRemove = function(key, urls) {
-        openURLs(urls);
-        removeURLs([key]);
-    };
-    
-    for (var i = 0; i < keys.length; i++) {
-        retrieveURLs(keys[i], openAndThenRemove);
-    }
-}
-
 function getKeysBeginWithPatternFromStorage(pattern, callback) {
     STORAGE.get(null, function(items) {
         var regex = new RegExp(pattern);
@@ -174,6 +163,17 @@ function openURLs(urls) {
         openNextUrl();
     } else {
         closeNewTabs();
+    }
+}
+
+function openURLsFromMultipleKeysAndThenRemoveThem(keys) {
+    var openAndThenRemove = function(key, urls) {
+        openURLs(urls);
+        removeURLs([key]);
+    };
+    
+    for (var i = 0; i < keys.length; i++) {
+        retrieveURLs(keys[i], openAndThenRemove);
     }
 }
 
@@ -285,36 +285,6 @@ function resetNameFieldAndFocusOnIt() {
     nameField.focus();
 }
 
-function getCheckedKeysAndHandleThem(listId, callback) {
-    var list = document.getElementById(listId);
-    var checkboxes = list.querySelectorAll('input[type="checkbox"]:checked');
-    var keys = Array.from(checkboxes).map(checkbox => KeyManager.getFullKey(checkbox));
-    callback(keys);
-}
-
-function attachDebugInfo(keys) {
-    var debugDivision = document.getElementById('debug');
-    var list = document.createElement('ol');
-    var debugSeparator = document.createElement('p');
-    debugSeparator.appendChild(document.createTextNode('==================== DEBUG ===================='));
-    debugDivision.innerHTML = '';
-    debugDivision.appendChild(debugSeparator);
-    debugDivision.appendChild(list);
-    
-    var attachURLs = function(key, urls) {
-        for (var i = 0; i < urls.length; i++) {
-            var item = document.createElement('li');
-            var text = document.createTextNode(urls[i]);
-            item.appendChild(text);
-            list.appendChild(item);
-        }
-    };
-    
-    for (var i = 0; i < keys.length; i++) {
-        retrieveURLs(keys[i], attachURLs);
-    }
-}
-
 // Sets up scrolling for long names
 function setupScrollingNames() {
     const nameElements = document.querySelectorAll('#list .key-name');
@@ -380,6 +350,36 @@ function setupScrollingNames() {
             });
         }
     });
+}
+
+function getCheckedKeysAndHandleThem(listId, callback) {
+    var list = document.getElementById(listId);
+    var checkboxes = list.querySelectorAll('input[type="checkbox"]:checked');
+    var keys = Array.from(checkboxes).map(checkbox => KeyManager.getFullKey(checkbox));
+    callback(keys);
+}
+
+function attachDebugInfo(keys) {
+    var debugDivision = document.getElementById('debug');
+    var list = document.createElement('ol');
+    var debugSeparator = document.createElement('p');
+    debugSeparator.appendChild(document.createTextNode('==================== DEBUG ===================='));
+    debugDivision.innerHTML = '';
+    debugDivision.appendChild(debugSeparator);
+    debugDivision.appendChild(list);
+    
+    var attachURLs = function(key, urls) {
+        for (var i = 0; i < urls.length; i++) {
+            var item = document.createElement('li');
+            var text = document.createTextNode(urls[i]);
+            item.appendChild(text);
+            list.appendChild(item);
+        }
+    };
+    
+    for (var i = 0; i < keys.length; i++) {
+        retrieveURLs(keys[i], attachURLs);
+    }
 }
 
 function migrateKeys(keys) {
