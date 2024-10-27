@@ -13,19 +13,26 @@ Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-under
 
 ## Features
 
- ✭ Saved data can be automatically synced with Chrome sync (no other account needed).
+✭ **Seamless Syncing**
+Saved tabs automatically sync with Chrome (no extra account needed).
 
- ✭ Neat UI, powered by Twitter's Bootstrap.
+✭ **Clean, Modern Interface**
+A streamlined UI built with Twitter Bootstrap for a visually neat experience.
 
- ✭ The hint (optional) for saving can be a word or phrase, just to remind you what the opened tabs are about.  If it's empty, the saving identifier will consist of a timestamp and the number of tabs, e.g. 2013-12-18T20:15:59 (10 tabs).
+✭ **Flexible Naming**
+Optionally, give each save a name—a word or phrase to help you quickly recall what the tabs contain.
 
- ✭ After saving, it wouldn't close your chrome window.  Thus, you can continue working on those tabs if you want.
+✭ **Non-Disruptive Saving**
+Keep working!  Saving tabs won’t close your Chrome window, so you can continue your tasks uninterrupted.
 
- ✭ You can save as many times as you want, they'll be stored as different entries.
+✭ **Unlimited Saves**
+Save as many tab collections as you need; each save is stored as a unique entry.
 
- ✭ Right after saved tabs are opened, the saved entry will be automatically removed. (GTD - Getting Things Done)
+✭ **Automatic Cleanup**
+Saved entries are automatically removed once opened, helping you take action rather than letting tabs pile up—ideal for staying on top of tasks and Getting Things Done (GTD).
 
- ✍ Project is open sourced at https://github.com/thyrlian/cryonics
+🌱 **Open Source Project**
+Check it out on GitHub at https://github.com/thyrlian/cryonics.
 
 ## Build & Test
 
