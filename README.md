@@ -14,24 +14,31 @@ Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-under
 ## Features
 
 ✭ **Seamless Syncing**
+
 Saved tabs automatically sync with Chrome (no extra account needed).
 
 ✭ **Clean, Modern Interface**
+
 A streamlined UI built with Twitter Bootstrap for a visually neat experience.
 
 ✭ **Flexible Naming**
+
 Optionally, give each save a name—a word or phrase to help you quickly recall what the tabs contain.
 
 ✭ **Non-Disruptive Saving**
+
 Keep working!  Saving tabs won’t close your Chrome window, so you can continue your tasks uninterrupted.
 
 ✭ **Unlimited Saves**
+
 Save as many tab collections as you need; each save is stored as a unique entry.
 
 ✭ **Automatic Cleanup**
+
 Saved entries are automatically removed once opened, helping you take action rather than letting tabs pile up—ideal for staying on top of tasks and Getting Things Done (GTD).
 
 🌱 **Open Source Project**
+
 Check it out on GitHub at https://github.com/thyrlian/cryonics.
 
 ## Build & Test
