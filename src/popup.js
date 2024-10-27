@@ -5,7 +5,7 @@ const KeyManager = {
     KEY_ATTRIBUTE: 'data-key',
 
     // Generates a unique key name for storing tabs information
-    generateKeyName: function(numberOfTabs) {
+    generateKeyName(numberOfTabs) {
         const name = document.getElementById('input-name').value;
         const time = this.getCurrentTimestampAsFilename();
         const tabsString = `${numberOfTabs} tabs`;
@@ -15,14 +15,14 @@ const KeyManager = {
     },
 
     // Returns the current timestamp formatted as a filename
-    getCurrentTimestampAsFilename: function() {
+    getCurrentTimestampAsFilename() {
         const normalizeTimeToTwoDigits = time => time < 10 ? `0${time}` : time.toString();
         const now = new Date();
         return `${now.getFullYear()}-${normalizeTimeToTwoDigits(now.getMonth() + 1)}-${normalizeTimeToTwoDigits(now.getDate())}T${normalizeTimeToTwoDigits(now.getHours())}:${normalizeTimeToTwoDigits(now.getMinutes())}:${normalizeTimeToTwoDigits(now.getSeconds())}`;
     },
 
     // Parses a key to extract time, tabs, and name
-    parseKey: function(key) {
+    parseKey(key) {
         const regexAppName = new RegExp(this.APP_NAME + ' ');
         const regexTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\s/;
         const regexTabs = /\d+\stabs/;
@@ -35,7 +35,7 @@ const KeyManager = {
     },
 
     // Formats a date string into a more readable format
-    formatDate: function(dateString) {
+    formatDate(dateString) {
         const isoDateString = dateString.replace('T', ' ');
         const date = new Date(isoDateString);
         
@@ -48,19 +48,19 @@ const KeyManager = {
     },
 
     // Migrates old key format to new format
-    migrateKey: (key) => key.endsWith(')') ? key.replace(/ \((\d+ tabs)\)$/, ' $1') : key,
+    migrateKey: key => key.endsWith(')') ? key.replace(/ \((\d+ tabs)\)$/, ' $1') : key,
 
     // Sets a key attribute on an element
     setKeyAttribute: (element, key) => element.setAttribute(KeyManager.KEY_ATTRIBUTE, key),
 
     // Gets the key attribute from an element
-    getKeyAttribute: (element) => element.getAttribute(KeyManager.KEY_ATTRIBUTE),
+    getKeyAttribute: element => element.getAttribute(KeyManager.KEY_ATTRIBUTE),
 
     // Retrieves the full key from an element
-    getFullKey: (element) => KeyManager.getKeyAttribute(element.closest('label')),
+    getFullKey: element => KeyManager.getKeyAttribute(element.closest('label')),
 
     // Generates a selector for a key
-    generateKeySelector: (key) => `label[${KeyManager.KEY_ATTRIBUTE}="${key}"]`
+    generateKeySelector: key => `label[${KeyManager.KEY_ATTRIBUTE}="${key}"]`
 };
 
 // Retrieves URLs from the current window's tabs
@@ -77,7 +77,7 @@ function saveURLs(key, urls, callback) {
 
 // Retrieves URLs from storage using a key
 function retrieveURLs(key, callback) {
-    STORAGE.get(key, (items) => {
+    STORAGE.get(key, items => {
         const urls = items[key];
         callback(key, urls);
     });
@@ -102,7 +102,7 @@ function updateKeysInStorage(oldKeys, newKeys, callback) {
     const updates = {};
     oldKeys.forEach((oldKey, index) => {
         if (oldKey !== newKeys[index]) {
-            STORAGE.get(oldKey, (result) => {
+            STORAGE.get(oldKey, result => {
                 updates[newKeys[index]] = result[oldKey];
                 STORAGE.remove(oldKey, () => {
                     STORAGE.set(updates, callback);
@@ -113,7 +113,7 @@ function updateKeysInStorage(oldKeys, newKeys, callback) {
 }
 
 function getKeysBeginWithPatternFromStorage(pattern, callback) {
-    STORAGE.get(null, (items) => {
+    STORAGE.get(null, items => {
         const regex = new RegExp(pattern);
         const allKeys = Object.keys(items);
         const wantedKeys = allKeys.filter(key => key.match(regex));
@@ -127,7 +127,7 @@ function openURLs(urls) {
 
     const openNextUrl = () => {
         if (openedCount < totalUrls) {
-            chrome.tabs.create({'url': urls[openedCount], 'active': false}, () => {
+            chrome.tabs.create({ 'url': urls[openedCount], 'active': false }, () => {
                 openedCount++;
                 openNextUrl();
             });
