@@ -144,11 +144,16 @@ function openURLs(urls) {
 }
 
 function openURLsFromMultipleKeysAndThenRemoveThem(keys) {
-    keys.forEach(key => {
-        retrieveURLs(key, (key, urls) => {
-            openURLs(urls);
-            removeURLs([key]);
-        });
+    const promises = keys.map(key => 
+        new Promise(resolve => {
+            retrieveURLs(key, (key, urls) => {
+                openURLs(urls);
+                removeURLs([key], resolve);
+            });
+        })
+    );
+    Promise.all(promises).then(() => {
+        // All URLs opened and removed
     });
 }
 
@@ -156,18 +161,16 @@ function openURLsFromMultipleKeysAndThenRemoveThem(keys) {
 function appendKeyTextChild(parent, key) {
     const { time, tabs, name } = KeyManager.parseKey(key);
 
-    const spanName = document.createElement('span');
-    spanName.setAttribute('class', 'key-name');
-    spanName.textContent = name;
+    const createSpan = (className, textContent) => {
+        const span = document.createElement('span');
+        span.setAttribute('class', className);
+        span.textContent = textContent;
+        return span;
+    };
 
-    const spanTabs = document.createElement('span');
-    spanTabs.setAttribute('class', 'key-tabs');
-    spanTabs.textContent = tabs;
-
-    const spanTime = document.createElement('span');
-    spanTime.setAttribute('class', 'key-time');
-    const formattedDate = KeyManager.formatDate(time);
-    spanTime.textContent = formattedDate;
+    const spanName = createSpan('key-name', name);
+    const spanTabs = createSpan('key-tabs', tabs);
+    const spanTime = createSpan('key-time', KeyManager.formatDate(time));
 
     const divInfo = document.createElement('div');
     divInfo.setAttribute('class', 'key-info');
@@ -219,21 +222,16 @@ function updateListView(listId) {
 
     function populateList(keys) {
         list.innerHTML = '';
-        if (keys.length === 0) {
-            btnOpen.style.visibility = 'hidden';
-            btnRemove.style.visibility = 'hidden';
-            textHint.style.visibility = 'hidden';
-            emptyMessage.style.display = 'block';
-            list.style.display = 'none';
-            bottomBar.style.display = 'none';
-        } else {
-            emptyMessage.style.display = 'none';
-            list.style.display = 'block';
-            bottomBar.style.display = 'flex';
+        const isEmpty = keys.length === 0;
+        btnOpen.style.visibility = isEmpty ? 'hidden' : 'visible';
+        btnRemove.style.visibility = isEmpty ? 'hidden' : 'visible';
+        textHint.style.visibility = isEmpty ? 'hidden' : 'visible';
+        emptyMessage.style.display = isEmpty ? 'block' : 'none';
+        list.style.display = isEmpty ? 'none' : 'block';
+        bottomBar.style.display = isEmpty ? 'none' : 'flex';
+
+        if (!isEmpty) {
             addListItemsAsCheckboxes(keys, listId);
-            btnOpen.style.visibility = 'visible';
-            btnRemove.style.visibility = 'visible';
-            textHint.style.visibility = 'visible';
             btnOpen.disabled = true;
             btnRemove.disabled = true;
         }
