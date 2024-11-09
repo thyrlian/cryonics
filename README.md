@@ -4,12 +4,9 @@ A Chrome extension to save and sync all your tabs, ready to resuscitate whenever
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Download-brightgreen.svg)](https://chrome.google.com/webstore/detail/cryonics/hkombacagedhkddahffppknpaiocgeap)
 
-<img src="https://github.com/thyrlian/cryonics/blob/master/assets/Cryonics.jpg">
+> **[Cryonics](https://en.wikipedia.org/wiki/Cryonics)** (from Greek κρύος 'kryos-' meaning 'cold') is the low-temperature preservation (usually at -196°C) of people who cannot be sustained by contemporary medicine, with the hope that resuscitation and restoration to full health may be possible in the far future. Cryopreservation of humans is not reversible with present technology; cryonicists hope that medical advances will someday allow cryopreserved people to be revived.
 
-Picture by [Gizmodo](http://io9.gizmodo.com/5977640/23-year-old-kim-suozzi-undergoes-cryonic-preservation-after-successful-fundraising-campaign)
-
-> **Cryonics** (from Greek κρύος 'kryos-' meaning 'cold') is the low-temperature preservation (usually at -196°C) of people who cannot be sustained by contemporary medicine, with the hope that resuscitation and restoration to full health may be possible in the far future. Cryopreservation of humans is not reversible with present technology; cryonicists hope that medical advances will someday allow cryopreserved people to be revived.
-> - [Wikipedia](https://en.wikipedia.org/wiki/Cryonics)
+<img src="https://github.com/thyrlian/cryonics/blob/master/assets/screenshots/current/screenshot.png">
 
 ## Features
 
